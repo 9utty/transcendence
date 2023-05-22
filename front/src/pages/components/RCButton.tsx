@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Image } from "antd";
+import React from "react";
+import { Image } from "antd";
 
 interface props {
   func: () => void;
@@ -7,13 +7,11 @@ interface props {
 
 const RCButton = (props: props) => {
   return (
-    <Button
-      type="primary"
+    <button
       style={{
-        flexDirection: "row",
-
         background: "transparent",
-        paddingTop: "20px",
+        borderWidth: "0px",
+        paddingTop: "10px",
       }}
       onClick={props.func}
     >
@@ -45,7 +43,7 @@ const RCButton = (props: props) => {
           메뉴추천
         </span>
       </div>
-    </Button>
+    </button>
   );
 };
 

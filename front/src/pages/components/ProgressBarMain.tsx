@@ -16,7 +16,7 @@ const ProgressBars = (props: props) => {
         const diff = Math.random() * 10;
         return Math.min(previousPercent + diff, 100);
       });
-    }, 200);
+    }, 150);
     return () => {
       clearInterval(timer);
     };
@@ -48,6 +48,7 @@ const ProgressBars = (props: props) => {
               position: "absolute",
               textAlign: "center",
               width: "100%",
+              fontFamily: "dunggeunmo-bold",
             }}
           >
             {Math.floor(percent)}
