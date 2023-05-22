@@ -15,7 +15,9 @@ const WindowIcon = ({ IconName, func, ImageUrl }: Props) => {
           background: "transparent",
           borderWidth: "0px",
           paddingTop: "10px",
-          width: "100px",
+          width: "120
+
+          px",
         }}
         onClick={func}
       >
