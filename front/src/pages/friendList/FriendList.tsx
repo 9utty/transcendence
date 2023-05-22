@@ -1,5 +1,7 @@
-import { Grid, Row } from "antd";
 import React, { useState } from "react";
+import WindowIcon from "../components/WindowIcon";
+import { Grid, Row } from "antd";
+import Modal from "../components/ModalWrapper";
 import {
   Button,
   Window,
@@ -7,14 +9,10 @@ import {
   WindowHeader,
   ScrollView,
 } from "react95";
-import WindowIcon from "../components/WindowIcon";
-import Modal from "../components/ModalWrapper";
-import { GetStaticProps } from "next";
 
-const HackerNewsURL = "https://api.hnpwa.com/v0/news/1.json";
 const { useBreakpoint } = Grid;
 
-const HackerNews = () => {
+const FriendList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const screens = useBreakpoint();
 
@@ -31,9 +29,9 @@ const HackerNews = () => {
   return (
     <div>
       <WindowIcon
-        IconName="해커뉴스"
+        IconName="친구목록."
         func={openModal}
-        ImageUrl="https://user-images.githubusercontent.com/86397600/239678037-d00b07a4-5575-4b01-9907-09e69ccce985.png"
+        ImageUrl="https://user-images.githubusercontent.com/86397600/239874067-d60aa992-9004-4ada-8856-481f9d35a20a.png"
       />
       {isOpen && (
         <Modal>
@@ -55,7 +53,7 @@ const HackerNews = () => {
               style={{ justifyContent: "space-between", display: "flex" }}
             >
               <span style={{ fontFamily: "dunggeunmo-bold", fontSize: "22px" }}>
-                Hacker News
+                친구목록
               </span>
               <Button style={{ marginTop: "3px" }} onClick={closeModal}>
                 <span
@@ -82,10 +80,4 @@ const HackerNews = () => {
   );
 };
 
-export default HackerNews;
-
-const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(HackerNewsURL);
-  const result = await res.json();
-  return result;
-};
+export default FriendList;

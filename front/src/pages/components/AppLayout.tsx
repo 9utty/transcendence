@@ -17,8 +17,6 @@ import {
 import Appbar from "./Appbar";
 import Link from "next/link";
 import CategoryHeader from "./CategoryHeader";
-import PostLayout from "../PostComponents/PostLayout";
-import MyBlog from "./MyBolg";
 
 const { useBreakpoint } = Grid;
 type Props = {
@@ -68,11 +66,9 @@ const AppLayout = ({ children }: Props) => {
                     alignItems: "center",
                   }}
                 >
-                  구티 BLOG.
+                  감장과 아이들
                 </div>
               </Button>
-
-              {isOpen && <MyBlog func={closeBlog} />}
             </Bar>
           </div>
           {children}

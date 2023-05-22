@@ -12,7 +12,6 @@ import {
   styleReset,
 } from "react95";
 import styled, { createGlobalStyle } from "styled-components";
-import MyProfile from "./MyProfile";
 import { Grid } from "antd";
 import Search from "../search/Search";
 
@@ -29,16 +28,8 @@ const { useBreakpoint } = Grid;
 
 export default function Appbar() {
   const [open, setOpen] = useState(false);
-  const [openProfile, setOpenProfile] = useState(false);
   const screens = useBreakpoint();
   let textSize;
-  const openProfileF = () => {
-    setOpenProfile(true);
-  };
-
-  const closeProfileF = () => {
-    setOpenProfile(false);
-  };
 
   return (
     <>
@@ -85,7 +76,7 @@ export default function Appbar() {
                     }}
                     onClick={() => setOpen(false)}
                   >
-                    <MenuListItem onClick={openProfileF}>
+                    <MenuListItem>
                       <span role="img" aria-label="👨‍💻">
                         👨‍💻
                       </span>
@@ -110,21 +101,19 @@ export default function Appbar() {
                       </div>
                     </MenuListItem>
                     <Separator />
-                    <MenuListItem disabled>
+                    <MenuListItem>
                       <span role="img" aria-label="🔙">
                         🔙
                       </span>
                       <div style={{ fontFamily: "dunggeunmo-bold" }}>
-                        Logout?
+                        Login?
                       </div>
                     </MenuListItem>
                   </MenuList>
                 )}
               </div>
-              <Search />
             </Toolbar>
           </Bar>
-          {openProfile && <MyProfile func={closeProfileF} />}
         </div>
       </Wrapper>
     </>

@@ -7,7 +7,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <meta charSet="utf-8" />
-        <title>구티의 블로그</title>
+        <title>감장과 아이들</title>
         <link
           rel="icon"
           type="image/png"
