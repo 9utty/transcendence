@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AppLayout from "./components/AppLayout";
 import { Row, Col } from "antd";
 import FriendList from "./friendList/FriendList";
-import ChatList from "./chatList/ChatList";
+import ChatList from "./chat/ChatList";
 
 const Home = () => {
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import WindowIcon from "../components/WindowIcon";
+import WindowIcon from "../../components/WindowIcon";
 import { Grid, Row } from "antd";
-import Modal from "../components/ModalWrapper";
+import Modal from "../../components/ModalWrapper";
 import {
   Button,
   ScrollView,
@@ -10,14 +10,20 @@ import {
   WindowContent,
   WindowHeader,
 } from "react95";
-import { chatMocData } from "@/moc/chat";
-import SearchRoom from "../chatRoom/SearchRoom";
-import ChatRoom from "../chatRoom/ChatRoom";
+import Chatting from "./Chatting";
+import UserList from "./UserList";
+
+interface Props {
+  ChatRoomName: string;
+  userCount: number;
+  isPS: boolean;
+}
 
 const { useBreakpoint } = Grid;
-const ChatList = () => {
+
+const Chat = ({ ChatRoomName, userCount, isPS }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isSearch, setIsSearch] = useState(false);
+  const [isUser, setIsUser] = useState(false);
   const screens = useBreakpoint();
 
   const openModal = () => {
@@ -30,20 +36,24 @@ const ChatList = () => {
     document.body.style.overflow = "auto";
   };
 
-  const onClickSearch = () => {
-    setIsSearch(true);
+  const onClickUser = () => {
+    setIsUser(true);
   };
 
   const onClickChat = () => {
-    setIsSearch(false);
+    setIsUser(false);
   };
 
   return (
     <div>
       <WindowIcon
-        IconName="채팅목록."
+        IconName={ChatRoomName}
         func={openModal}
-        ImageUrl="https://user-images.githubusercontent.com/86397600/239874911-135e4e97-bc7e-4b5f-b4dc-cc773ff04fb2.png"
+        ImageUrl={
+          isPS
+            ? "https://user-images.githubusercontent.com/86397600/239898237-c4fa07e3-dd6a-4054-b140-0f46dc78259d.png"
+            : "https://user-images.githubusercontent.com/86397600/239898239-397e4a7c-7ea1-446d-8af6-30f34f8fccab.png"
+        }
       />
       {isOpen && (
         <Modal>
@@ -65,7 +75,7 @@ const ChatList = () => {
               style={{ justifyContent: "space-between", display: "flex" }}
             >
               <span style={{ fontFamily: "dunggeunmo-bold", fontSize: "22px" }}>
-                채팅목록
+                {`${ChatRoomName}. ${userCount}`}
               </span>
               <Button style={{ marginTop: "3px" }} onClick={closeModal}>
                 <span
@@ -82,15 +92,15 @@ const ChatList = () => {
                 style={{ fontFamily: "dunggeunmo-bold", fontSize: "20px" }}
                 onClick={onClickChat}
               >
-                목록
+                채팅
               </Button>
               <Button
                 variant="menu"
                 size="sm"
                 style={{ fontFamily: "dunggeunmo-bold", fontSize: "20px" }}
-                onClick={onClickSearch}
+                onClick={onClickUser}
               >
-                찾기
+                유저
               </Button>
             </Toolbar>
             <WindowContent>
@@ -99,7 +109,7 @@ const ChatList = () => {
                   shadow={false}
                   style={{ width: "100%", height: "44vh" }}
                 >
-                  {isSearch ? <SearchRoom /> : <ChatRoom />}
+                  {isUser ? <Chatting /> : <UserList />}
                 </ScrollView>
               </Row>
             </WindowContent>
@@ -110,4 +120,4 @@ const ChatList = () => {
   );
 };
 
-export default ChatList;
+export default Chat;
