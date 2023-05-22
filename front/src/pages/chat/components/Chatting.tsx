@@ -1,12 +1,26 @@
 import { chatMocData } from "@/moc/chat";
+import { mocContentData } from "@/moc/chatContent";
+import { mocUserData } from "@/moc/user";
 import Modal from "@/pages/components/ModalWrapper";
+import Spacer from "@/pages/components/Spacer";
 import { chat } from "@/types/chat";
-import { Grid } from "antd";
+import { Room } from "@/types/roomType";
+import { Grid, Row, Image } from "antd";
 import React, { useState } from "react";
-import { Button, Window, WindowHeader } from "react95";
+import {
+  Button,
+  MenuList,
+  MenuListItem,
+  ScrollView,
+  TextInput,
+  Window,
+  WindowContent,
+  WindowHeader,
+} from "react95";
+import MessageCard from "./MessageCard";
 
 interface Chatting {
-  room: chat | null;
+  room: chat | undefined;
 }
 
 const { useBreakpoint } = Grid;
@@ -14,6 +28,8 @@ const { useBreakpoint } = Grid;
 const Chatting = ({ room }: Chatting) => {
   const screens = useBreakpoint();
   const [isOpen, setIsOpen] = useState(false);
+  const [input, setInput] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -39,9 +55,37 @@ const Chatting = ({ room }: Chatting) => {
     }
   };
 
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setInput(value);
+  };
+
   return (
-    <div>
-      <Button style={{ width: "10vw" }} onClick={openModal}>
+    <div
+      style={{
+        margin: "10px",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      {room ? (
+        <div style={{ width: "70vw" }}>
+          {/* Render your new component based on the filteredChat data */}
+          <p>Matching chat room found:</p>
+          <p>
+            {"Connect User: "}
+            {room.connectUser
+              .map((index) => mocUserData[index].userNickName)
+              .join(", ")}
+          </p>
+          <p>Type: {`${Room[room.type].type}`}</p>
+        </div>
+      ) : (
+        <div style={{ fontSize: "30px", color: "red" }}>Not Found</div>
+      )}
+      <Button style={{ width: "10vw", minWidth: "80px" }} onClick={openModal}>
         참여
       </Button>
       {isOpen && (
@@ -64,7 +108,7 @@ const Chatting = ({ room }: Chatting) => {
               style={{ justifyContent: "space-between", display: "flex" }}
             >
               <span style={{ fontFamily: "dunggeunmo-bold", fontSize: "22px" }}>
-                {chatMocData.map((chat, index) => {
+                {chatMocData.map((chat) => {
                   let text: string = "";
                   if (chat.roomId === room?.roomId) {
                     text = chat.roomName;
@@ -80,6 +124,88 @@ const Chatting = ({ room }: Chatting) => {
                 </span>
               </Button>
             </WindowHeader>
+            <WindowContent>
+              <Row>
+                <ScrollView
+                  shadow={false}
+                  style={{ width: "100%", height: "44vh" }}
+                >
+                  {menuOpen && (
+                    <MenuList
+                      style={{
+                        position: "absolute",
+                        right: "0",
+                        top: "0",
+                        marginRight: "30px",
+                        justifyContent: "flex-end",
+                        width: "30vw",
+                        height: "90%",
+                        fontFamily: "dunggeunmo-bold",
+                      }}
+                    >
+                      <ScrollView style={{ width: "100%", height: "100%" }}>
+                        {room?.connectUser.map((index) => {
+                          return (
+                            <div key={index}>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                }}
+                              >
+                                {mocUserData[index].userNickName}
+                                <Button>게임하기</Button>
+                              </div>
+                              <div
+                                style={{
+                                  width: "100",
+                                  height: "2px",
+                                  backgroundColor: "#999",
+                                  marginBottom: "5px",
+                                }}
+                              />
+                            </div>
+                          );
+                        })}
+                      </ScrollView>
+                    </MenuList>
+                  )}
+                  {mocContentData.map((data, index) => {
+                    return (
+                      <div key={index} style={{}}>
+                        <MessageCard Data={data} />
+                      </div>
+                    );
+                  })}
+                </ScrollView>
+              </Row>
+            </WindowContent>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginLeft: "20px",
+                marginRight: "20px",
+              }}
+            >
+              <TextInput
+                value={input}
+                onChange={handleInput}
+                placeholder="Input..."
+                style={{ fontFamily: "dunggeunmo" }}
+              />
+              <Button
+                style={{ display: "flex-end", flexDirection: "row" }}
+                onClick={() => setMenuOpen(!menuOpen)}
+                active={menuOpen}
+              >
+                <span>{`유저목록 (${room?.connectUser.length})`}</span>
+              </Button>
+            </div>
           </Window>
         </Modal>
       )}

@@ -16,7 +16,6 @@ import {
 } from "react95";
 import Appbar from "./Appbar";
 import Link from "next/link";
-import CategoryHeader from "./CategoryHeader";
 
 const { useBreakpoint } = Grid;
 type Props = {

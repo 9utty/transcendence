@@ -16,7 +16,7 @@ export const chatMocData: chat[] = [
   {
     roomId: 3,
     roomName: "room3",
-    connectUser: [6],
+    connectUser: [6, 1, 2, 5, 7, 8, 9, 12],
     type: 0,
   },
   {

@@ -63,8 +63,7 @@ const MessageCard = (props: Props) => {
               borderRadius: "10px",
               marginBottom: "20px",
               fontFamily: "dunggeunmo-bold",
-              color: "#111
-			  ",
+              color: "#111",
             }}
           >
             <div style={{ display: "flex", alignItems: "center" }}>
