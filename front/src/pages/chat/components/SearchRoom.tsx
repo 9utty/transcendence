@@ -2,17 +2,34 @@ import React, { useState } from "react";
 import { Button, TextInput } from "react95";
 import { chatMocData } from "@/moc/chat";
 import { chat } from "@/types/chat";
+import { mocUserData } from "@/moc/user";
+import { Room } from "@/types/roomType";
 
 const SearchRoom = () => {
   const [input, setInput] = useState("");
+  const [notFound, setNotFound] = useState(false);
   const [filteredChat, setFilteredChat] = useState<chat | null>(null);
+  const [userIndex, setUserIndex] = useState<number[] | undefined>([]);
+  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInput(value);
+    if (timer) clearTimeout(timer);
 
-    const result = chatMocData.find((chat) => chat.roomId === value);
-    setFilteredChat(result || null);
+    if (value !== "") {
+      const newTimer = setTimeout(() => {
+        const result = chatMocData.find((chat) => chat.roomId === value);
+        if (!result) {
+          setNotFound(true);
+        } else {
+          setNotFound(false);
+        }
+        setUserIndex(result?.connectUser);
+        setFilteredChat(result || null);
+      }, 500);
+      setTimer(newTimer);
+    }
   };
 
   const handleJoin = () => {
@@ -66,14 +83,24 @@ const SearchRoom = () => {
           참여
         </Button>
       </div>
-      {filteredChat && (
-        <div>
-          {/* Render your new component based on the filteredChat data */}
-          <p>Matching chat room found:</p>
-          <p>Room ID: {filteredChat.roomId}</p>
-          <p>Connect User: {filteredChat.connectUser.join(", ")}</p>
-          <p>Type: {filteredChat.type}</p>
-        </div>
+      {notFound ? (
+        <div style={{ fontSize: "30px", color: "red" }}>Not Found</div>
+      ) : (
+        filteredChat && (
+          <div>
+            {/* Render your new component based on the filteredChat data */}
+            <p>Matching chat room found:</p>
+            <p>Room ID: {filteredChat.roomId}</p>
+            <p>
+              Connect User:
+              {userIndex &&
+                userIndex
+                  .map((index) => mocUserData[index].userNickName)
+                  .join(", ")}
+            </p>
+            <p>Type: {`${Room[filteredChat.type].type}`}</p>
+          </div>
+        )
       )}
     </div>
   );
