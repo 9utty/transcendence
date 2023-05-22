@@ -8,13 +8,18 @@ import {
   WindowContent,
   WindowHeader,
   ScrollView,
+  Toolbar,
 } from "react95";
+import FriendUser from "./components/FriendUser";
+import { mocUserData } from "@/moc/user";
+import BlockUser from "./components/BlockUser";
 
 const { useBreakpoint } = Grid;
 
 const FriendList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const screens = useBreakpoint();
+  const [isBlock, setIsBlock] = useState(false);
 
   const openModal = () => {
     setIsOpen(true);
@@ -24,6 +29,14 @@ const FriendList = () => {
   const closeModal = () => {
     setIsOpen(false);
     document.body.style.overflow = "auto";
+  };
+
+  const onClickFriend = () => {
+    setIsBlock(false);
+  };
+
+  const onClickBlock = () => {
+    setIsBlock(true);
   };
 
   return (
@@ -63,13 +76,44 @@ const FriendList = () => {
                 </span>
               </Button>
             </WindowHeader>
+            <Toolbar>
+              <Button
+                variant="menu"
+                size="sm"
+                style={{ fontFamily: "dunggeunmo-bold", fontSize: "20px" }}
+                onClick={onClickFriend}
+              >
+                친구
+              </Button>
+              <Button
+                variant="menu"
+                size="sm"
+                style={{ fontFamily: "dunggeunmo-bold", fontSize: "20px" }}
+                onClick={onClickBlock}
+              >
+                차단
+              </Button>
+            </Toolbar>
             <WindowContent>
               <Row>
                 <ScrollView
                   shadow={false}
                   style={{ width: "100%", height: "44vh" }}
                 >
-                  <div>굿굿</div>
+                  {isBlock
+                    ? mocUserData.map((user, index) => (
+                        <BlockUser
+                          key={index}
+                          userNickName={user.userNickName}
+                        />
+                      ))
+                    : mocUserData.map((user, index) => (
+                        <FriendUser
+                          key={index}
+                          userNickName={user.userNickName}
+                          stateOn={user.stateOn}
+                        />
+                      ))}
                 </ScrollView>
               </Row>
             </WindowContent>
