@@ -4,10 +4,12 @@ import { chatMocData } from "@/moc/chat";
 import { chat } from "@/types/chat";
 import { mocUserData } from "@/moc/user";
 import { Room } from "@/types/roomType";
+import Chatting from "./Chatting";
 
 const SearchRoom = () => {
   const [input, setInput] = useState("");
   const [notFound, setNotFound] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [filteredChat, setFilteredChat] = useState<chat | null>(null);
   const [userIndex, setUserIndex] = useState<number[] | undefined>([]);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
@@ -19,7 +21,7 @@ const SearchRoom = () => {
 
     if (value !== "") {
       const newTimer = setTimeout(() => {
-        const result = chatMocData.find((chat) => chat.roomId === value);
+        const result = chatMocData.find((chat) => chat.roomName === value);
         if (!result) {
           setNotFound(true);
         } else {
@@ -32,23 +34,25 @@ const SearchRoom = () => {
     }
   };
 
-  const handleJoin = () => {
-    // Handle the join functionality based on the filteredChat data
-    if (filteredChat?.type === 2) {
-      // Password validation for protected chat room
-      const password = prompt("Enter the password:");
-      if (password === filteredChat.password?.toString()) {
-        // Proceed with joining the chat room
-        console.log("Successfully joined the chat room.");
-      } else {
-        // Password incorrect
-        console.log("Incorrect password. Cannot join the chat room.");
-      }
-    } else {
-      // Proceed with joining the chat room
-      console.log("Successfully joined the chat room.");
-    }
-  };
+  // const handleJoin = () => {
+  //   // 조인하기전 핸들함수
+  //   if (filteredChat?.type === 2) {
+  //     // 패스워드가 있는경우
+  //     const password = prompt("Enter the password:");
+  //     if (password === filteredChat.password?.toString()) {
+  //       // TODO: 나중에 APIServer에 암호화해서 보내고 True False를 받아야함
+  //       setIsOpen(true);
+  //     } else {
+  //       // 비밀번호를 틀렸을때
+  //       setIsOpen(false);
+  //       console.log("Incorrect password. Cannot join the chat room.");
+  //     }
+  //   } else if (filteredChat?.type === 1 || filteredChat?.type === 0) {
+  //     // 비밀번호가 없는경우
+  //     setIsOpen(true);
+  //     console.log("Successfully joined the chat room.");
+  //   }
+  // };
 
   return (
     <div
@@ -79,9 +83,6 @@ const SearchRoom = () => {
             style={{ fontFamily: "dunggeunmo" }}
           />
         </div>
-        <Button style={{ width: "10vw" }} onClick={handleJoin}>
-          참여
-        </Button>
       </div>
       {notFound ? (
         <div style={{ fontSize: "30px", color: "red" }}>Not Found</div>
@@ -92,7 +93,7 @@ const SearchRoom = () => {
             <p>Matching chat room found:</p>
             <p>Room ID: {filteredChat.roomId}</p>
             <p>
-              Connect User:
+              {"Connect User: "}
               {userIndex &&
                 userIndex
                   .map((index) => mocUserData[index].userNickName)
@@ -102,6 +103,7 @@ const SearchRoom = () => {
           </div>
         )
       )}
+      <Chatting room={filteredChat} />
     </div>
   );
 };

@@ -2,34 +2,40 @@ import { chat } from "@/types/chat";
 
 export const chatMocData: chat[] = [
   {
-    roomId: "room1",
+    roomId: 1,
+    roomName: "room1",
     connectUser: [1, 2, 3],
     type: 0,
   },
   {
-    roomId: "room2",
+    roomId: 2,
+    roomName: "room2",
     connectUser: [4, 5],
     type: 1,
   },
   {
-    roomId: "room3",
+    roomId: 3,
+    roomName: "room3",
     connectUser: [6],
     type: 0,
   },
   {
-    roomId: "room4",
+    roomId: 4,
+    roomName: "room4",
     connectUser: [7, 8, 9, 10],
     type: 2,
     password: 1234,
   },
   {
-    roomId: "room5",
+    roomId: 5,
+    roomName: "room5",
     connectUser: [11, 12, 13],
     type: 1,
   },
   {
-    roomId: "room6",
-    connectUser: [9],
+    roomId: 6,
+    roomName: "room6",
+    connectUser: [1, 3, 6],
     type: 0,
   },
 ];
