@@ -29,6 +29,7 @@ const Chatting = ({ room }: Chatting) => {
   const screens = useBreakpoint();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
+  const [isDm, setIsDm] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const closeModal = () => {
@@ -57,6 +58,12 @@ const Chatting = ({ room }: Chatting) => {
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
+    const dm = value.includes("/w");
+    if (dm === true) {
+      setIsDm(true);
+    } else {
+      setIsDm(false);
+    }
     setInput(value);
   };
 
