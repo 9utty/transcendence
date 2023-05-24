@@ -8,8 +8,9 @@ const canvasWidth = 500; // 게임 영역의 너비
 const canvasHeight = 300; // 게임 영역의 높이
 
 const InGame: React.FC = () => {
+  const initialDirection = Math.random() > 0.5 ? -1 : 1;
   const [ballPosition, setBallPosition] = useState({ x: 250, y: 150 });
-  const [ballSpeed, setBallSpeed] = useState({ x: 4, y: 4 });
+  const [ballSpeed, setBallSpeed] = useState({ x: 4 * initialDirection, y: 4 });
   const [paddlePositions, setPaddlePositions] = useState({
     player1: { x: 20, y: canvasHeight / 2 - paddleHeight / 2 },
     player2: { x: 480, y: canvasHeight / 2 - paddleHeight / 2 },
@@ -117,7 +118,7 @@ const InGame: React.FC = () => {
           player1: { x: 20, y: canvasHeight / 2 - paddleHeight / 2 },
           player2: { x: 480, y: canvasHeight / 2 - paddleHeight / 2 },
         });
-        setBallSpeed({ x: 4, y: 4 }); // Reset the ball speed
+        setBallSpeed({ x: 4 * initialDirection, y: 4 }); // Reset the ball speed
         // TODO: Declare the winner
       }
     }, 10);
@@ -125,7 +126,7 @@ const InGame: React.FC = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [keysPressed, ballPosition, ballSpeed, paddlePositions]); // remove keysPressed from dependency array
+  }, [keysPressed, ballPosition, ballSpeed, paddlePositions, initialDirection]); // remove keysPressed from dependency array
 
   return (
     <Map
