@@ -3,6 +3,7 @@ import AppLayout from "./components/AppLayout";
 import { Row, Col } from "antd";
 import FriendList from "./friendList/FriendList";
 import ChatList from "./chat/ChatList";
+import Game from "./game/Game";
 
 const Home = () => {
   return (
@@ -51,6 +52,15 @@ const Components: Component[] = [
       return (
         <Col xs={12} sm={8} md={4}>
           <ChatList />
+        </Col>
+      );
+    },
+  },
+  {
+    Component: () => {
+      return (
+        <Col xs={12} sm={8} md={4}>
+          <Game />
         </Col>
       );
     },
