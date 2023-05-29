@@ -10,7 +10,7 @@ import {
   WindowContent,
   WindowHeader,
 } from "react95";
-import Chatting from "./Chatting";
+import Chatting from "./SearchToRoom";
 import UserList from "./UserList";
 
 interface Props {

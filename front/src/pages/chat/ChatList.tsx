@@ -14,7 +14,7 @@ import {
 } from "react95";
 import { chatMocData } from "@/moc/chat";
 import SearchRoom from "./components/SearchRoom";
-import ChatRoom from "./components/ChatRoom";
+import ChatRoom from "./components/ChatRoomList";
 
 const { useBreakpoint } = Grid;
 const ChatList = () => {

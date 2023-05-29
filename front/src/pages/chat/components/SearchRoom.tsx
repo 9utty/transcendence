@@ -4,7 +4,7 @@ import { chatMocData } from "@/moc/chat";
 import { chat } from "@/types/chat";
 import { mocUserData } from "@/moc/user";
 import { Room } from "@/types/roomType";
-import Chatting from "./Chatting";
+import SearchToRoom from "./SearchToRoom";
 
 const SearchRoom = () => {
   const [input, setInput] = useState("");
@@ -55,7 +55,7 @@ const SearchRoom = () => {
           />
         </div>
       </div>
-      <Chatting room={filteredChat} />
+      <SearchToRoom room={filteredChat} />
     </div>
   );
 };
