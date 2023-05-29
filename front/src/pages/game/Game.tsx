@@ -36,8 +36,8 @@ const Game = () => {
               position: "absolute",
               top: screens.md ? "50%" : "0%",
               left: screens.md ? "50%" : "0%",
-              width: screens.md ? "80vw" : "99vw",
-              height: "60vh",
+              width: "700px",
+              height: "500px",
               transform: screens.md
                 ? "translate(-50%, -50%)"
                 : "translate(0%, 15%)",

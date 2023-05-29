@@ -9,6 +9,8 @@ import {
   WindowHeader,
   ScrollView,
   Toolbar,
+  Tabs,
+  Tab,
 } from "react95";
 import FriendUser from "./components/FriendUser";
 import { mocUserData } from "@/moc/user";
@@ -20,6 +22,7 @@ const FriendList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const screens = useBreakpoint();
   const [isBlock, setIsBlock] = useState(false);
+  const [state, setState] = useState({ activeTab: 0 });
 
   const openModal = () => {
     setIsOpen(true);
@@ -38,6 +41,15 @@ const FriendList = () => {
   const onClickBlock = () => {
     setIsBlock(true);
   };
+
+  const handleChange = (
+    value: number,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setState({ activeTab: value });
+  };
+
+  const { activeTab } = state;
 
   return (
     <div>
@@ -76,44 +88,59 @@ const FriendList = () => {
                 </span>
               </Button>
             </WindowHeader>
-            <Toolbar>
-              <Button
-                variant="menu"
-                size="sm"
-                style={{ fontFamily: "dunggeunmo-bold", fontSize: "20px" }}
-                onClick={onClickFriend}
-              >
-                친구
-              </Button>
-              <Button
-                variant="menu"
-                size="sm"
-                style={{ fontFamily: "dunggeunmo-bold", fontSize: "20px" }}
-                onClick={onClickBlock}
-              >
-                차단
-              </Button>
-            </Toolbar>
+            <Tabs value={activeTab} onChange={handleChange}>
+              <Tab value={0}>
+                <span
+                  style={{
+                    fontFamily: "dunggeunmo-bold",
+                    fontSize: "22px",
+                    width: "100px",
+                  }}
+                >
+                  친구
+                </span>
+              </Tab>
+              <Tab value={1}>
+                <span
+                  style={{
+                    fontFamily: "dunggeunmo-bold",
+                    fontSize: "22px",
+                    width: "100px",
+                  }}
+                >
+                  차단
+                </span>
+              </Tab>
+              <Tab value={2}>
+                <span
+                  style={{
+                    fontFamily: "dunggeunmo-bold",
+                    fontSize: "22px",
+                    width: "100px",
+                  }}
+                >
+                  팔로우
+                </span>
+              </Tab>
+            </Tabs>
             <WindowContent>
               <Row>
                 <ScrollView
                   shadow={false}
                   style={{ width: "100%", height: "44vh" }}
                 >
-                  {isBlock
-                    ? mocUserData.map((user, index) => (
-                        <BlockUser
-                          key={index}
-                          userNickName={user.userNickName}
-                        />
-                      ))
-                    : mocUserData.map((user, index) => (
-                        <FriendUser
-                          key={index}
-                          userNickName={user.userNickName}
-                          stateOn={user.stateOn}
-                        />
-                      ))}
+                  {activeTab === 0 &&
+                    mocUserData.map((user, index) => (
+                      <FriendUser
+                        key={index}
+                        userNickName={user.userNickName}
+                        stateOn={user.stateOn}
+                      />
+                    ))}
+                  {activeTab === 1 &&
+                    mocUserData.map((user, index) => (
+                      <BlockUser key={index} userNickName={user.userNickName} />
+                    ))}
                 </ScrollView>
               </Row>
             </WindowContent>

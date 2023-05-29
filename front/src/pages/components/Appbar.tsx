@@ -13,7 +13,7 @@ import {
 } from "react95";
 import styled, { createGlobalStyle } from "styled-components";
 import { Grid } from "antd";
-import Search from "../search/Search";
+import Profile from "../profile/Profile";
 
 interface IWrapperProps {
   screenSize: Record<string, boolean>;
@@ -28,8 +28,17 @@ const { useBreakpoint } = Grid;
 
 export default function Appbar() {
   const [open, setOpen] = useState(false);
+  const [isProfile, setIsProfile] = useState(false);
   const screens = useBreakpoint();
   let textSize;
+
+  const openProfile = () => {
+    setIsProfile(true);
+  };
+
+  const closeProfile = () => {
+    setIsProfile(false);
+  };
 
   return (
     <>
@@ -76,7 +85,7 @@ export default function Appbar() {
                     }}
                     onClick={() => setOpen(false)}
                   >
-                    <MenuListItem>
+                    <MenuListItem onClick={openProfile}>
                       <span role="img" aria-label="👨‍💻">
                         👨‍💻
                       </span>
@@ -114,6 +123,7 @@ export default function Appbar() {
               </div>
             </Toolbar>
           </Bar>
+          {isProfile && <Profile close={closeProfile} />}
         </div>
       </Wrapper>
     </>

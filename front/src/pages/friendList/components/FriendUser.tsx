@@ -1,4 +1,5 @@
-import React from "react";
+import Profile from "@/pages/profile/Profile";
+import React, { useState } from "react";
 import { Button } from "react95";
 
 interface User {
@@ -7,6 +8,18 @@ interface User {
 }
 
 const FriendUser = ({ userNickName, stateOn }: User) => {
+  const [isProfile, setIsProfile] = useState(false);
+  const [isBlock, setIsBlock] = useState(false);
+
+  const openProfile = () => {
+    setIsProfile(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeProfile = () => {
+    setIsProfile(false);
+    document.body.style.overflow = "auto";
+  };
   return (
     <div
       style={{
@@ -41,11 +54,17 @@ const FriendUser = ({ userNickName, stateOn }: User) => {
             }}
           ></div>
         </div>
-        <Button style={{ width: "10vw" }}>차단</Button>
+        <div>
+          <Button style={{ width: "10vw" }} onClick={openProfile}>
+            프로필
+          </Button>
+          <Button style={{ width: "10vw" }}>차단</Button>
+        </div>
       </div>
       <div
         style={{ width: "100", height: "2px", backgroundColor: "#999" }}
       ></div>
+      {isProfile && <Profile close={closeProfile} />}
     </div>
   );
 };

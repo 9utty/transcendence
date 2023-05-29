@@ -19,7 +19,7 @@ const GameClose = ({ WinPlayerId, WinPlayerNickName, Score }: Props) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        marginTop: "5px",
+        marginTop: "15px",
       }}
     >
       {WinPlayerId === 0 ? (
