@@ -9,6 +9,8 @@ import {
   Window,
   WindowContent,
   WindowHeader,
+  Tabs,
+  Tab,
 } from "react95";
 import { chatMocData } from "@/moc/chat";
 import SearchRoom from "./components/SearchRoom";
@@ -19,6 +21,7 @@ const ChatList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const screens = useBreakpoint();
+  const [state, setState] = useState({ activeTab: 0 });
 
   const openModal = () => {
     setIsOpen(true);
@@ -37,6 +40,15 @@ const ChatList = () => {
   const onClickChat = () => {
     setIsSearch(false);
   };
+
+  const handleChange = (
+    value: number,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setState({ activeTab: value });
+  };
+
+  const { activeTab } = state;
 
   return (
     <div>
@@ -75,31 +87,38 @@ const ChatList = () => {
                 </span>{" "}
               </Button>
             </WindowHeader>
-            <Toolbar>
-              <Button
-                variant="menu"
-                size="sm"
-                style={{ fontFamily: "dunggeunmo-bold", fontSize: "20px" }}
-                onClick={onClickChat}
-              >
-                목록
-              </Button>
-              <Button
-                variant="menu"
-                size="sm"
-                style={{ fontFamily: "dunggeunmo-bold", fontSize: "20px" }}
-                onClick={onClickSearch}
-              >
-                찾기
-              </Button>
-            </Toolbar>
+            <Tabs value={activeTab} onChange={handleChange}>
+              <Tab value={0}>
+                <span
+                  style={{
+                    fontFamily: "dunggeunmo-bold",
+                    fontSize: "22px",
+                    width: "100px",
+                  }}
+                >
+                  목록
+                </span>
+              </Tab>
+              <Tab value={1}>
+                <span
+                  style={{
+                    fontFamily: "dunggeunmo-bold",
+                    fontSize: "22px",
+                    width: "100px",
+                  }}
+                >
+                  찾기
+                </span>
+              </Tab>
+            </Tabs>
             <WindowContent>
               <Row>
                 <ScrollView
                   shadow={false}
                   style={{ width: "100%", height: "44vh" }}
                 >
-                  {isSearch ? <SearchRoom /> : <ChatRoom />}
+                  {activeTab === 0 && <ChatRoom />}
+                  {activeTab === 1 && <SearchRoom />}
                 </ScrollView>
               </Row>
             </WindowContent>
