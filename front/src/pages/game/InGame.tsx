@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Map from "./Map";
 import GameClose from "./Close";
+import GameScore from "./Score";
 
 const ballRadius = 10; // 공의 반지름
 const paddleHeight = 80; // 패들의 높이
@@ -16,8 +17,6 @@ const InGame: React.FC = () => {
     player1: { x: 20, y: canvasHeight / 2 - paddleHeight / 2 },
     player2: { x: 480, y: canvasHeight / 2 - paddleHeight / 2 },
   });
-  const [isEnd, setIsEnd] = useState(false);
-
   // Define a state to keep track of which keys are pressed
   const [keysPressed, setKeysPressed] = useState({
     ArrowUp: false,
@@ -28,8 +27,14 @@ const InGame: React.FC = () => {
 
   const [score, setScore] = useState({ player1: 0, player2: 0 }); // Add score state
   const [gameTime, setGameTime] = useState(0); // Add gameTime state
+  const [isEnd, setIsEnd] = useState(false);
+  const [playerIndex, setPlayerIndex] = useState(0);
 
   useEffect(() => {
+    if (isEnd) {
+      return;
+    }
+
     const handleKeyDown = (event: KeyboardEvent) => {
       setKeysPressed((prev) => ({ ...prev, [event.key]: true }));
     };
@@ -45,10 +50,13 @@ const InGame: React.FC = () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, []);
+  }, [isEnd]);
 
   useEffect(() => {
     const interval = setInterval(() => {
+      if (isEnd) {
+        return;
+      }
       // Handle paddle movements
       if (keysPressed.ArrowUp && paddlePositions.player2.y > 0) {
         setPaddlePositions((prev) => ({
@@ -137,20 +145,44 @@ const InGame: React.FC = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [keysPressed, ballPosition, ballSpeed, paddlePositions, initialDirection]);
+  }, [
+    keysPressed,
+    ballPosition,
+    ballSpeed,
+    paddlePositions,
+    initialDirection,
+    isEnd,
+  ]);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setGameTime((prev) => prev + 1); // Increment gameTime every second
+      setGameTime((prev) => {
+        if (prev >= 100 || isEnd) {
+          clearInterval(timer); // End interval when gameTime reaches 100
+          return prev; // Return previous state, gameTime won't be incremented
+        }
+        return prev + 1; // Increment gameTime
+      });
     }, 1000);
 
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [isEnd]);
 
   useEffect(() => {
     if (score.player1 === 5 || score.player2 === 5 || gameTime > 100) {
+      if (score.player1 === 5) {
+        setPlayerIndex(1);
+      } else if (score.player2 === 5) {
+        setPlayerIndex(2);
+      } else if (gameTime > 100) {
+        if (score.player1 < score.player2) {
+          setPlayerIndex(2);
+        } else if (score.player1 > score.player2) {
+          setPlayerIndex(1);
+        }
+      }
       setIsEnd(true);
       console.log("Game over");
     }
@@ -158,13 +190,12 @@ const InGame: React.FC = () => {
 
   return (
     <div>
-      {isEnd ? (
-        <GameClose
-          WinPlayerId={0}
-          WinPlayerNickName="Player2"
-          Score={[score.player1, score.player2]}
-        />
-      ) : (
+      <div
+        style={{
+          display: "flex",
+          paddingLeft: "75px",
+        }}
+      >
         <Map
           ballPosition={ballPosition}
           paddlePositions={paddlePositions}
@@ -173,6 +204,18 @@ const InGame: React.FC = () => {
           paddleWidth={paddleWidth}
           canvasWidth={canvasWidth}
           canvasHeight={canvasHeight}
+        />
+      </div>
+      <GameScore
+        player1={score.player1}
+        player2={score.player2}
+        time={gameTime}
+      />
+      {isEnd && (
+        <GameClose
+          WinPlayerId={playerIndex === 1 ? 1 : playerIndex === 2 ? 2 : 0} // 승리한 플레이어로 넘겨주기
+          WinPlayerNickName={playerIndex === 1 ? "player1" : "player2"} // TODO: 승리한 플레이어로 넘겨주기
+          Score={[score.player1, score.player2]}
         />
       )}
     </div>
