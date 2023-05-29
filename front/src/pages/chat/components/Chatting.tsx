@@ -18,6 +18,8 @@ import {
   WindowHeader,
 } from "react95";
 import MessageCard from "./MessageCard";
+import Profile from "@/pages/profile/Profile";
+import GameMode from "@/pages/game/GameMode";
 
 interface Chatting {
   room: chat | undefined;
@@ -31,9 +33,32 @@ const Chatting = ({ room }: Chatting) => {
   const [input, setInput] = useState("");
   const [isDm, setIsDm] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isProfile, setIsProfile] = useState(false);
+  const [isGameMode, setIsGameMode] = useState(false);
+  const [isNormal, setIsNormal] = useState(true);
+
+  const openProfile = () => {
+    setIsProfile(true);
+  };
+
+  const closeProfile = () => {
+    setIsProfile(false);
+  };
+
+  const openGameMode = () => {
+    setIsGameMode(true);
+  };
+
+  const closeGameMode = () => {
+    setIsGameMode(false);
+  };
 
   const closeModal = () => {
     setIsOpen(false);
+  };
+
+  const handleGameMode = (value: boolean) => {
+    setIsNormal(value);
   };
 
   const openModal = () => {
@@ -92,7 +117,15 @@ const Chatting = ({ room }: Chatting) => {
       ) : (
         <div style={{ fontSize: "30px", color: "red" }}>Not Found</div>
       )}
-      <Button style={{ width: "10vw", minWidth: "80px" }} onClick={openModal}>
+      <Button
+        style={{
+          width: "10vw",
+          minWidth: "80px",
+          fontFamily: "dunggeunmo-bold",
+          fontSize: "22px",
+        }}
+        onClick={openModal}
+      >
         참여
       </Button>
       {isOpen && (
@@ -160,10 +193,20 @@ const Chatting = ({ room }: Chatting) => {
                                   flexDirection: "row",
                                   justifyContent: "space-between",
                                   alignItems: "center",
+                                  fontFamily: "dunggeunmo-bold",
+                                  fontSize: "20px",
                                 }}
                               >
                                 {mocUserData[index].userNickName}
-                                <Button>게임하기</Button>
+                                <Button
+                                  style={{
+                                    fontFamily: "dunggeunmo-bold",
+                                    fontSize: "17px",
+                                  }}
+                                  onClick={openGameMode}
+                                >
+                                  게임하기
+                                </Button>
                               </div>
                               <div
                                 style={{
@@ -215,6 +258,9 @@ const Chatting = ({ room }: Chatting) => {
             </div>
           </Window>
         </Modal>
+      )}
+      {isGameMode && (
+        <GameMode close={closeGameMode} gameMode={handleGameMode} />
       )}
     </div>
   );
