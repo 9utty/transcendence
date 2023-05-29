@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Map from "./Map";
+import GameClose from "./Close";
 
 const ballRadius = 10; // 공의 반지름
 const paddleHeight = 80; // 패들의 높이
@@ -15,6 +16,7 @@ const InGame: React.FC = () => {
     player1: { x: 20, y: canvasHeight / 2 - paddleHeight / 2 },
     player2: { x: 480, y: canvasHeight / 2 - paddleHeight / 2 },
   });
+  const [isEnd, setIsEnd] = useState(false);
 
   // Define a state to keep track of which keys are pressed
   const [keysPressed, setKeysPressed] = useState({
@@ -23,6 +25,9 @@ const InGame: React.FC = () => {
     w: false,
     s: false,
   });
+
+  const [score, setScore] = useState({ player1: 0, player2: 0 }); // Add score state
+  const [gameTime, setGameTime] = useState(0); // Add gameTime state
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -112,6 +117,12 @@ const InGame: React.FC = () => {
         newBallPosition.x + ballRadius > canvasWidth
       ) {
         clearInterval(interval);
+        // Update the score
+        if (newBallPosition.x - ballRadius < 0) {
+          setScore((prev) => ({ ...prev, player2: prev.player2 + 1 }));
+        } else {
+          setScore((prev) => ({ ...prev, player1: prev.player1 + 1 }));
+        }
         // Reset the positions of the ball and paddles
         setBallPosition({ x: 250, y: 150 });
         setPaddlePositions({
@@ -126,18 +137,45 @@ const InGame: React.FC = () => {
     return () => {
       clearInterval(interval);
     };
-  }, [keysPressed, ballPosition, ballSpeed, paddlePositions, initialDirection]); // remove keysPressed from dependency array
+  }, [keysPressed, ballPosition, ballSpeed, paddlePositions, initialDirection]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setGameTime((prev) => prev + 1); // Increment gameTime every second
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (score.player1 === 5 || score.player2 === 5 || gameTime > 100) {
+      setIsEnd(true);
+      console.log("Game over");
+    }
+  }, [score, gameTime]);
 
   return (
-    <Map
-      ballPosition={ballPosition}
-      paddlePositions={paddlePositions}
-      ballRadius={ballRadius}
-      paddleHeight={paddleHeight}
-      paddleWidth={paddleWidth}
-      canvasWidth={canvasWidth}
-      canvasHeight={canvasHeight}
-    />
+    <div>
+      {isEnd ? (
+        <GameClose
+          WinPlayerId={0}
+          WinPlayerNickName="Player2"
+          Score={[score.player1, score.player2]}
+        />
+      ) : (
+        <Map
+          ballPosition={ballPosition}
+          paddlePositions={paddlePositions}
+          ballRadius={ballRadius}
+          paddleHeight={paddleHeight}
+          paddleWidth={paddleWidth}
+          canvasWidth={canvasWidth}
+          canvasHeight={canvasHeight}
+        />
+      )}
+    </div>
   );
 };
 
