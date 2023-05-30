@@ -3,14 +3,17 @@ import { TextInput } from "react95";
 import { chatMocData } from "@/moc/chat";
 import { chat } from "@/types/chat";
 import SearchRoom from "./SearchRoom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ChatSlice } from "@/redux/Slice/Chat";
+import { Room } from "@/types/roomType";
+import RootState from "@/redux/RootReducer";
 
 const SearchPage = () => {
   const [input, setInput] = useState("");
   const [filteredChat, setFilteredChat] = useState<chat>();
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
   const dispatch = useDispatch();
+  const room = useSelector((state: RootState) => state.chat.room);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -21,8 +24,10 @@ const SearchPage = () => {
       const newTimer = setTimeout(() => {
         const result = chatMocData.find((chat) => chat.roomName === value);
         setFilteredChat(result);
-        if (filteredChat) {
-          dispatch(ChatSlice.actions.addRoom(filteredChat));
+        if (result) {
+          dispatch(ChatSlice.actions.addRoom(result));
+        } else {
+          dispatch(ChatSlice.actions.deleteRoom());
         }
       }, 500);
       setTimer(newTimer);
@@ -59,7 +64,7 @@ const SearchPage = () => {
           />
         </div>
       </div>
-      <SearchRoom />
+      <SearchRoom room={room} />
     </div>
   );
 };

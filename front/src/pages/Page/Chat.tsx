@@ -24,7 +24,7 @@ const ChatList = () => {
 
   return (
     <AppLayout>
-      <MyModal hName="채팅목록" close={close}>
+      <MyModal hName="채팅" close={close}>
         <Tabs value={activeTab} onChange={handleChange}>
           <Tab value={0}>
             <span

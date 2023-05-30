@@ -33,7 +33,7 @@ const MyModal = ({ children, hName, close }: Props) => {
           style={{ justifyContent: "space-between", display: "flex" }}
         >
           <span style={{ fontFamily: "dunggeunmo-bold", fontSize: "22px" }}>
-            게임
+            {`${hName}`}
           </span>
           <Button style={{ marginTop: "3px" }} onClick={close}>
             <span style={{ fontFamily: "dunggeunmo-bold", fontSize: "20px" }}>

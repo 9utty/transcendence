@@ -18,7 +18,7 @@ import Appbar from "./Appbar";
 import Link from "next/link";
 import FriendIcon from "../friendList/FriendIcon";
 import ChatIcon from "../chat/ChatIcon";
-import Game from "../game/Game";
+import GameIcon from "../game/GameIcon";
 
 const { useBreakpoint } = Grid;
 type Props = {
@@ -130,7 +130,7 @@ const Components: Component[] = [
     Component: () => {
       return (
         <Col xs={12} sm={8} md={4}>
-          <Game />
+          <GameIcon />
         </Col>
       );
     },

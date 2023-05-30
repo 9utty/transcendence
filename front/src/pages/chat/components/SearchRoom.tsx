@@ -1,14 +1,17 @@
 import { mocUserData } from "@/moc/user";
 import { Room } from "@/types/roomType";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react95";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import RootState from "@/redux/RootReducer";
+import { chat } from "@/types/chat";
 
-const SearchRoom = () => {
-  const room = useSelector((state: RootState) => state.chat.room);
+interface Room {
+  room: chat;
+}
 
+const SearchRoom = ({ room }: Room) => {
   const router = useRouter();
 
   const openModal = () => {
@@ -38,7 +41,7 @@ const SearchRoom = () => {
         alignItems: "center",
       }}
     >
-      {room ? (
+      {room.roomName.length > 0 ? (
         <div style={{ width: "70vw" }}>
           {/* Render your new component based on the filteredChat data */}
           <p>Matching chat room found:</p>
@@ -48,7 +51,7 @@ const SearchRoom = () => {
               .map((index) => mocUserData[index].userNickName)
               .join(", ")}
           </p>
-          <p>Type: {`${Room[room.type].type}`}</p>
+          <p>Type: {`${Room[room.type]?.type}`}</p>
         </div>
       ) : (
         <div style={{ fontSize: "30px", color: "red" }}>Not Found</div>

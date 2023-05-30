@@ -20,6 +20,9 @@ import GameMode from "@/pages/game/GameMode";
 import ChatInput from "../chat/components/ChatInput";
 import { useSelector } from "react-redux";
 import RootState from "@/redux/RootReducer";
+import AppLayout from "../globalComponents/AppLayout";
+import MyModal from "../globalComponents/MyModal";
+import { useRouter } from "next/router";
 
 const { useBreakpoint } = Grid;
 
@@ -31,6 +34,7 @@ const ChatRoom = () => {
   const [state, setState] = useState({ activeTab: 0 });
 
   const room = useSelector((state: RootState) => state.chat.room);
+  const router = useRouter();
 
   const screens = useBreakpoint();
   const scrollBottomRef = useRef<HTMLDivElement>(null); // 참조 생성
@@ -72,129 +76,100 @@ const ChatRoom = () => {
   ) => {
     setState({ activeTab: value });
   };
+  const close = () => {
+    router.back();
+  };
 
   const { activeTab } = state;
 
   return (
-    <div>
-      <Modal>
-        <Window
-          className="window"
-          style={{
-            position: "absolute",
-            top: screens.md ? "50%" : "0%",
-            left: screens.md ? "50%" : "0%",
-            width: "700px",
-            height: "500px",
-            transform: screens.md
-              ? "translate(-50%, -50%)"
-              : "translate(0%, 15%)",
-          }}
-        >
-          <WindowHeader
-            className="window-title"
-            style={{ justifyContent: "space-between", display: "flex" }}
-          >
-            <span style={{ fontFamily: "dunggeunmo-bold", fontSize: "22px" }}>
-              {chatMocData.map((chat) => {
-                let text: string = "";
-                if (chat.roomId === room?.roomId) {
-                  text = chat.roomName;
-                }
-                return text;
-              })}
+    <AppLayout>
+      <MyModal hName={room.roomName} close={close}>
+        <Tabs value={activeTab} onChange={handleChange}>
+          <Tab value={0}>
+            <span
+              style={{
+                fontFamily: "dunggeunmo-bold",
+                fontSize: "22px",
+                width: "200px",
+              }}
+            >
+              채팅로그
             </span>
-            <Button style={{ marginTop: "3px" }} onClick={close}>
-              <span style={{ fontFamily: "dunggeunmo-bold", fontSize: "20px" }}>
-                X
-              </span>
-            </Button>
-          </WindowHeader>
-          <Tabs value={activeTab} onChange={handleChange}>
-            <Tab value={0}>
-              <span
-                style={{
-                  fontFamily: "dunggeunmo-bold",
-                  fontSize: "22px",
-                  width: "200px",
-                }}
-              >
-                채팅로그
-              </span>
-            </Tab>
-            <Tab value={2}>
-              <span
-                style={{
-                  fontFamily: "dunggeunmo-bold",
-                  fontSize: "22px",
-                  width: "200px",
-                }}
-              >
-                {`유저목록 (${room?.connectUser.length})`}
-              </span>
-            </Tab>
-          </Tabs>
-          <WindowContent>
-            <Row>
-              <ScrollView
-                shadow={false}
-                style={{ width: "100%", height: "330px" }}
-              >
-                {activeTab === 0 &&
-                  mocContentData.map((data, index) => {
-                    return (
-                      <div key={index} style={{}}>
-                        <MessageCard Data={data} />
-                      </div>
-                    );
-                  })}
-                {activeTab === 1 &&
-                  room?.connectUser.map((index) => {
-                    return (
-                      <div key={index}>
-                        <div
+          </Tab>
+          <Tab value={2}>
+            <span
+              style={{
+                fontFamily: "dunggeunmo-bold",
+                fontSize: "22px",
+                width: "200px",
+              }}
+            >
+              {`유저목록 (${room?.connectUser.length})`}
+            </span>
+          </Tab>
+        </Tabs>
+        <WindowContent>
+          <Row>
+            <ScrollView
+              shadow={false}
+              style={{ width: "100%", height: "330px" }}
+            >
+              {activeTab === 0 &&
+                mocContentData.map((data, index) => {
+                  return (
+                    <div key={index} style={{}}>
+                      <MessageCard Data={data} />
+                    </div>
+                  );
+                })}
+              {activeTab === 1 &&
+                room?.connectUser.map((index) => {
+                  return (
+                    <div key={index}>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          fontFamily: "dunggeunmo-bold",
+                          fontSize: "20px",
+                        }}
+                      >
+                        {mocUserData[index].userNickName}
+                        <Button
                           style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "center",
                             fontFamily: "dunggeunmo-bold",
-                            fontSize: "20px",
+                            fontSize: "17px",
                           }}
+                          onClick={openGameMode}
                         >
-                          {mocUserData[index].userNickName}
-                          <Button
-                            style={{
-                              fontFamily: "dunggeunmo-bold",
-                              fontSize: "17px",
-                            }}
-                            onClick={openGameMode}
-                          >
-                            게임하기
-                          </Button>
-                        </div>
-                        <div
-                          style={{
-                            width: "100",
-                            height: "2px",
-                            backgroundColor: "#999",
-                            marginBottom: "5px",
-                          }}
-                        />
+                          게임하기
+                        </Button>
                       </div>
-                    );
-                  })}
-                <div ref={scrollBottomRef} />
-              </ScrollView>
-            </Row>
-          </WindowContent>
-          <ChatInput input={input} func={handleInput} />
-        </Window>
-      </Modal>
-      {isGameMode && (
-        <GameMode close={closeGameMode} gameMode={handleGameMode} />
-      )}
-    </div>
+                      <div
+                        style={{
+                          width: "100",
+                          height: "2px",
+                          backgroundColor: "#999",
+                          marginBottom: "5px",
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              <div ref={scrollBottomRef} />
+            </ScrollView>
+          </Row>
+        </WindowContent>
+        <ChatInput input={input} func={handleInput} />
+      </MyModal>
+    </AppLayout>
+
+    // {isGameMode && (
+    //   <GameMode close={closeGameMode} gameMode={handleGameMode} />
+    // )}
   );
 };
 
