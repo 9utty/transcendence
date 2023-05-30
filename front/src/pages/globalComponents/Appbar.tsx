@@ -1,19 +1,15 @@
-import { ComponentMeta } from "@storybook/react";
-import React, { useEffect, useState } from "react";
-import { Bar } from "react95";
+import React, { useState } from "react";
 import {
-  AppBar,
+  Bar,
   Button,
   MenuList,
   MenuListItem,
   Separator,
-  TextInput,
   Toolbar,
-  styleReset,
 } from "react95";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 import { Grid } from "antd";
-import Profile from "../Page/Profile";
+import { useRouter } from "next/router";
 
 interface IWrapperProps {
   screenSize: Record<string, boolean>;
@@ -28,16 +24,11 @@ const { useBreakpoint } = Grid;
 
 export default function Appbar() {
   const [open, setOpen] = useState(false);
-  const [isProfile, setIsProfile] = useState(false);
   const screens = useBreakpoint();
-  let textSize;
+  const router = useRouter();
 
   const openProfile = () => {
-    setIsProfile(true);
-  };
-
-  const closeProfile = () => {
-    setIsProfile(false);
+    router.push("/Page/Profile", "/Page/Profile", { shallow: false });
   };
 
   return (
@@ -123,7 +114,6 @@ export default function Appbar() {
               </div>
             </Toolbar>
           </Bar>
-          {isProfile && <Profile close={closeProfile} />}
         </div>
       </Wrapper>
     </>

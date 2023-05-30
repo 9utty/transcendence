@@ -61,6 +61,17 @@ const Profile = () => {
               게임로그
             </span>
           </Tab>
+          <Tab value={2}>
+            <span
+              style={{
+                fontFamily: "dunggeunmo-bold",
+                fontSize: "22px",
+                width: "100px",
+              }}
+            >
+              수정하기
+            </span>
+          </Tab>
         </Tabs>
         <WindowContent>
           <Row>
@@ -72,6 +83,7 @@ const Profile = () => {
                 <UserInfo nickName="gulee" profileIndex={0} />
               )}
               {activeTab === 1 && <H1>게임로그</H1>}
+              {activeTab === 2 && <H1>프로필수정</H1>}
             </ScrollView>
           </Row>
         </WindowContent>
