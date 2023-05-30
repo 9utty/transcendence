@@ -1,4 +1,4 @@
-import Profile from "@/pages/profile/Profile";
+import Profile from "@/pages/Page/Profile";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { Button } from "react95";
@@ -17,7 +17,7 @@ const FriendUser = ({ userNickName, stateOn }: User) => {
   const openProfile = () => {
     setIsProfile(true);
     document.body.style.overflow = "hidden";
-    router.push("/profile/Profile", "/profile/Profile", { shallow: true });
+    router.push("/profile/Profile", "/profile/Profile", { shallow: false });
   };
 
   const closeProfile = () => {

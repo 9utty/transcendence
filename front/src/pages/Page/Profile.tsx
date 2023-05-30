@@ -1,14 +1,25 @@
 import React, { useState } from "react";
-import { WindowContent, Tabs, Tab, ScrollView } from "react95";
-import { Row } from "antd";
-import { mocUserData } from "@/moc/user";
-import BlockUser from "./components/BlockUser";
-import FriendUser from "./components/FriendUser";
-import AppLayout from "../globalComponents/AppLayout";
+import Modal from "../globalComponents/ModalWrapper";
+import H1 from "../PostComponents/H1";
+import {
+  Button,
+  ScrollView,
+  Tab,
+  TabBody,
+  Tabs,
+  Window,
+  WindowContent,
+  WindowHeader,
+} from "react95";
+import { Grid, Row } from "antd";
+import UserInfo from "../profile/UserInfo";
 import MyModal from "../globalComponents/MyModal";
+import AppLayout from "../globalComponents/AppLayout";
 import { useRouter } from "next/router";
 
-const FriendList = () => {
+const { useBreakpoint } = Grid;
+
+const Profile = () => {
   const [state, setState] = useState({ activeTab: 0 });
   const router = useRouter();
 
@@ -18,15 +29,15 @@ const FriendList = () => {
   ) => {
     setState({ activeTab: value });
   };
+  const { activeTab } = state;
 
   const close = () => {
     router.back();
   };
 
-  const { activeTab } = state;
   return (
     <AppLayout>
-      <MyModal hName="친구목록" close={close}>
+      <MyModal hName="프로필" close={close}>
         <Tabs value={activeTab} onChange={handleChange}>
           <Tab value={0}>
             <span
@@ -36,7 +47,7 @@ const FriendList = () => {
                 width: "100px",
               }}
             >
-              친구
+              유저정보
             </span>
           </Tab>
           <Tab value={1}>
@@ -47,18 +58,7 @@ const FriendList = () => {
                 width: "100px",
               }}
             >
-              차단
-            </span>
-          </Tab>
-          <Tab value={2}>
-            <span
-              style={{
-                fontFamily: "dunggeunmo-bold",
-                fontSize: "22px",
-                width: "100px",
-              }}
-            >
-              팔로우
+              게임로그
             </span>
           </Tab>
         </Tabs>
@@ -68,18 +68,10 @@ const FriendList = () => {
               shadow={false}
               style={{ width: "100%", height: "44vh" }}
             >
-              {activeTab === 0 &&
-                mocUserData.map((user, index) => (
-                  <FriendUser
-                    key={index}
-                    userNickName={user.userNickName}
-                    stateOn={user.stateOn}
-                  />
-                ))}
-              {activeTab === 1 &&
-                mocUserData.map((user, index) => (
-                  <BlockUser key={index} userNickName={user.userNickName} />
-                ))}
+              {activeTab === 0 && (
+                <UserInfo nickName="gulee" profileIndex={0} />
+              )}
+              {activeTab === 1 && <H1>게임로그</H1>}
             </ScrollView>
           </Row>
         </WindowContent>
@@ -88,4 +80,4 @@ const FriendList = () => {
   );
 };
 
-export default FriendList;
+export default Profile;

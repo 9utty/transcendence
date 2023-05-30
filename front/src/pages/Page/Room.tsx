@@ -14,24 +14,24 @@ import {
   Tabs,
   Tab,
 } from "react95";
-import MessageCard from "./MessageCard";
+import MessageCard from "../chat/components/MessageCard";
 import { mocUserData } from "@/moc/user";
 import GameMode from "@/pages/game/GameMode";
-import ChatInput from "./ChatInput";
+import ChatInput from "../chat/components/ChatInput";
+import { useSelector } from "react-redux";
+import RootState from "@/redux/RootReducer";
 
 const { useBreakpoint } = Grid;
 
-interface Props {
-  room: chat | undefined;
-  close: () => void;
-}
-
-const ChatRoom = ({ room, close }: Props) => {
+const ChatRoom = () => {
   const [input, setInput] = useState("");
   const [isGameMode, setIsGameMode] = useState(false);
   const [isNormal, setIsNormal] = useState(true);
   const [isDm, setIsDm] = useState(false);
   const [state, setState] = useState({ activeTab: 0 });
+
+  const room = useSelector((state: RootState) => state.chat.room);
+
   const screens = useBreakpoint();
   const scrollBottomRef = useRef<HTMLDivElement>(null); // 참조 생성
 
@@ -41,7 +41,7 @@ const ChatRoom = ({ room, close }: Props) => {
     if (scrollBottomRef.current) {
       scrollBottomRef.current.scrollIntoView({ behavior: "smooth" }); // 참조된 요소가 보이도록 스크롤
     }
-  }, [mocContentData]); // mocContentData가 변경될 때마다 실행
+  }, [scrollBottomRef]); // mocContentData가 변경될 때마다 실행
 
   const openGameMode = () => {
     setIsGameMode(true);

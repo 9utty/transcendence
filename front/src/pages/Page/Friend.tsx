@@ -1,30 +1,32 @@
 import React, { useState } from "react";
+import { WindowContent, Tabs, Tab, ScrollView } from "react95";
+import { Row } from "antd";
+import { mocUserData } from "@/moc/user";
+import BlockUser from "../friendList/components/BlockUser";
+import FriendUser from "../friendList/components/FriendUser";
 import AppLayout from "../globalComponents/AppLayout";
 import MyModal from "../globalComponents/MyModal";
 import { useRouter } from "next/router";
-import { WindowContent, Tabs, Tab, ScrollView } from "react95";
-import { Row } from "antd";
-import ChatRoom from "./components/ChatRoom";
-import SearchRoom from "./components/SearchRoom";
-import RoomList from "./components/RoomList";
 
-const ChatList = () => {
+const FriendList = () => {
   const [state, setState] = useState({ activeTab: 0 });
   const router = useRouter();
-  const close = () => {
-    router.back();
-  };
+
   const handleChange = (
     value: number,
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     setState({ activeTab: value });
   };
-  const { activeTab } = state;
 
+  const close = () => {
+    router.back();
+  };
+
+  const { activeTab } = state;
   return (
     <AppLayout>
-      <MyModal hName="채팅목록" close={close}>
+      <MyModal hName="친구목록" close={close}>
         <Tabs value={activeTab} onChange={handleChange}>
           <Tab value={0}>
             <span
@@ -34,7 +36,7 @@ const ChatList = () => {
                 width: "100px",
               }}
             >
-              채팅목록
+              친구
             </span>
           </Tab>
           <Tab value={1}>
@@ -45,7 +47,18 @@ const ChatList = () => {
                 width: "100px",
               }}
             >
-              채널찾기
+              차단
+            </span>
+          </Tab>
+          <Tab value={2}>
+            <span
+              style={{
+                fontFamily: "dunggeunmo-bold",
+                fontSize: "22px",
+                width: "100px",
+              }}
+            >
+              팔로우
             </span>
           </Tab>
         </Tabs>
@@ -55,8 +68,18 @@ const ChatList = () => {
               shadow={false}
               style={{ width: "100%", height: "44vh" }}
             >
-              {activeTab === 0 && <RoomList />}
-              {activeTab === 1 && <SearchRoom />}
+              {activeTab === 0 &&
+                mocUserData.map((user, index) => (
+                  <FriendUser
+                    key={index}
+                    userNickName={user.userNickName}
+                    stateOn={user.stateOn}
+                  />
+                ))}
+              {activeTab === 1 &&
+                mocUserData.map((user, index) => (
+                  <BlockUser key={index} userNickName={user.userNickName} />
+                ))}
             </ScrollView>
           </Row>
         </WindowContent>
@@ -65,4 +88,4 @@ const ChatList = () => {
   );
 };
 
-export default ChatList;
+export default FriendList;

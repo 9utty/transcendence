@@ -9,8 +9,8 @@ const FriendIcon = () => {
   const openModal = () => {
     setIsOpen(true);
     document.body.style.overflow = "hidden";
-    router.push("/friendList/FriendList", "/friendList/FriendList", {
-      shallow: true,
+    router.push("/Page/Friend", "/Page/Friend", {
+      shallow: false,
     });
   };
 

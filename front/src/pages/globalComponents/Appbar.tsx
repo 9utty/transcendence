@@ -13,7 +13,7 @@ import {
 } from "react95";
 import styled, { createGlobalStyle } from "styled-components";
 import { Grid } from "antd";
-import Profile from "../profile/Profile";
+import Profile from "../Page/Profile";
 
 interface IWrapperProps {
   screenSize: Record<string, boolean>;

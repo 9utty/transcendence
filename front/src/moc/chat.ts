@@ -24,7 +24,7 @@ export const chatMocData: chat[] = [
     roomName: "room4",
     connectUser: [7, 8, 9, 10],
     type: 2,
-    password: 1234,
+    password: "1234",
   },
   {
     roomId: 5,

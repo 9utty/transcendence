@@ -1,6 +1,9 @@
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import "./app.css";
+import { Provider } from "react-redux";
+import store from "@/redux/RootStore";
+import Home from ".";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -15,6 +18,9 @@ export default function App({ Component, pageProps }: AppProps) {
           href="https://user-images.githubusercontent.com/86397600/236520751-cbe5955c-0ec5-46d8-bc42-130ef3c62a1f.png"
         />
       </Head>
+      <Provider store={store}>
+        <Home />
+      </Provider>
       <Component {...pageProps} />
     </>
   );

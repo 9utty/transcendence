@@ -1,59 +1,69 @@
-import React, { useState } from "react";
-import { TextInput } from "react95";
-import { chatMocData } from "@/moc/chat";
-import { chat } from "@/types/chat";
-import SearchToRoom from "./SearchToRoom";
+import { mocUserData } from "@/moc/user";
+import { Room } from "@/types/roomType";
+import React from "react";
+import { Button } from "react95";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import RootState from "@/redux/RootReducer";
 
 const SearchRoom = () => {
-  const [input, setInput] = useState("");
-  const [filteredChat, setFilteredChat] = useState<chat>();
-  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
+  const room = useSelector((state: RootState) => state.chat.room);
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setInput(value);
-    if (timer) clearTimeout(timer);
+  const router = useRouter();
 
-    if (value !== "") {
-      const newTimer = setTimeout(() => {
-        const result = chatMocData.find((chat) => chat.roomName === value);
-        setFilteredChat(result);
-      }, 500);
-      setTimer(newTimer);
+  const openModal = () => {
+    // 조인하기전 핸들함수
+    if (room?.type === 2) {
+      // 패스워드가 있는경우
+      const password = prompt("비밀번호를 입력하세요:");
+      if (password === room.password?.toString()) {
+        // TODO: 나중에 APIServer에 암호화해서 보내고 True False를 받아야함
+        router.push("/Page/Room", "/Page/Room", { shallow: true });
+      } else {
+        // 비밀번호를 틀렸을때
+      }
+    } else if (room?.type === 1 || room?.type === 0) {
+      // 비밀번호가 없는경우
+      router.push("/Page/Room", "/Page/Room", { shallow: true });
     }
   };
 
   return (
     <div
       style={{
-        padding: "15px",
-        fontFamily: "dunggeunmo-bold",
-        fontSize: "20px",
+        margin: "10px",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <TextInput
-            value={input}
-            onChange={handleSearch}
-            placeholder="Search..."
-            style={{ fontFamily: "dunggeunmo" }}
-          />
+      {room ? (
+        <div style={{ width: "70vw" }}>
+          {/* Render your new component based on the filteredChat data */}
+          <p>Matching chat room found:</p>
+          <p>
+            {"Connect User: "}
+            {room.connectUser
+              .map((index) => mocUserData[index].userNickName)
+              .join(", ")}
+          </p>
+          <p>Type: {`${Room[room.type].type}`}</p>
         </div>
-      </div>
-      <SearchToRoom room={filteredChat} />
+      ) : (
+        <div style={{ fontSize: "30px", color: "red" }}>Not Found</div>
+      )}
+      <Button
+        style={{
+          width: "10vw",
+          minWidth: "80px",
+          fontFamily: "dunggeunmo-bold",
+          fontSize: "22px",
+        }}
+        onClick={openModal}
+      >
+        참여
+      </Button>
     </div>
   );
 };
