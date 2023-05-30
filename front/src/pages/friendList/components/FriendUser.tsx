@@ -1,4 +1,5 @@
 import Profile from "@/pages/profile/Profile";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { Button } from "react95";
 
@@ -11,9 +12,12 @@ const FriendUser = ({ userNickName, stateOn }: User) => {
   const [isProfile, setIsProfile] = useState(false);
   const [isBlock, setIsBlock] = useState(false);
 
+  const router = useRouter();
+
   const openProfile = () => {
     setIsProfile(true);
     document.body.style.overflow = "hidden";
+    router.push("/profile/Profile", "/profile/Profile", { shallow: true });
   };
 
   const closeProfile = () => {
@@ -64,7 +68,7 @@ const FriendUser = ({ userNickName, stateOn }: User) => {
       <div
         style={{ width: "100", height: "2px", backgroundColor: "#999" }}
       ></div>
-      {isProfile && <Profile close={closeProfile} />}
+      {/* {isProfile && <Profile close={closeProfile} />} */}
     </div>
   );
 };

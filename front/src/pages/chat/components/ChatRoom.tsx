@@ -1,6 +1,6 @@
 import { chatMocData } from "@/moc/chat";
 import { mocContentData } from "@/moc/chatContent";
-import Modal from "@/pages/components/ModalWrapper";
+import Modal from "@/pages/globalComponents/ModalWrapper";
 import { chat } from "@/types/chat";
 import { Grid, Row } from "antd";
 import React, { useEffect, useRef, useState } from "react";
@@ -17,6 +17,7 @@ import {
 import MessageCard from "./MessageCard";
 import { mocUserData } from "@/moc/user";
 import GameMode from "@/pages/game/GameMode";
+import ChatInput from "./ChatInput";
 
 const { useBreakpoint } = Grid;
 
@@ -33,6 +34,8 @@ const ChatRoom = ({ room, close }: Props) => {
   const [state, setState] = useState({ activeTab: 0 });
   const screens = useBreakpoint();
   const scrollBottomRef = useRef<HTMLDivElement>(null); // 참조 생성
+
+  // TODO: 서버와 연결시 여기에서 다시 ChatRoom 최신정보 가져오기
 
   useEffect(() => {
     if (scrollBottomRef.current) {
@@ -185,23 +188,7 @@ const ChatRoom = ({ room, close }: Props) => {
               </ScrollView>
             </Row>
           </WindowContent>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginLeft: "20px",
-              marginRight: "20px",
-            }}
-          >
-            <TextInput
-              value={input}
-              onChange={handleInput}
-              placeholder="Input..."
-              style={{ fontFamily: "dunggeunmo" }}
-            />
-          </div>
+          <ChatInput input={input} func={handleInput} />
         </Window>
       </Modal>
       {isGameMode && (

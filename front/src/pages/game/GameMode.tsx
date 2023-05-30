@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from "../components/ModalWrapper";
+import Modal from "../globalComponents/ModalWrapper";
 import { Button, Window, WindowContent, WindowHeader } from "react95";
 import { Grid } from "antd";
 

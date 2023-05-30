@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { Button, TextInput } from "react95";
+import { TextInput } from "react95";
 import { chatMocData } from "@/moc/chat";
 import { chat } from "@/types/chat";
-import { mocUserData } from "@/moc/user";
-import { Room } from "@/types/roomType";
 import SearchToRoom from "./SearchToRoom";
 
 const SearchRoom = () => {

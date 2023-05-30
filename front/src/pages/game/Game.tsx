@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import WindowIcon from "../components/WindowIcon";
-import Modal from "../components/ModalWrapper";
+import WindowIcon from "../globalComponents/WindowIcon";
+import Modal from "../globalComponents/ModalWrapper";
 import { Button, Window, WindowContent, WindowHeader } from "react95";
 import { Grid } from "antd";
 import InGame from "./InGame";

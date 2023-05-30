@@ -1,66 +1,16 @@
-import { chatMocData } from "@/moc/chat";
-import { mocContentData } from "@/moc/chatContent";
 import { mocUserData } from "@/moc/user";
-import Modal from "@/pages/components/ModalWrapper";
-import Spacer from "@/pages/components/Spacer";
 import { chat } from "@/types/chat";
 import { Room } from "@/types/roomType";
-import { Grid, Row, Image } from "antd";
 import React, { useState } from "react";
-import {
-  Button,
-  MenuList,
-  MenuListItem,
-  ScrollView,
-  TextInput,
-  Window,
-  WindowContent,
-  WindowHeader,
-} from "react95";
-import MessageCard from "./MessageCard";
-import Profile from "@/pages/profile/Profile";
-import GameMode from "@/pages/game/GameMode";
+import { Button } from "react95";
 import ChatRoom from "./ChatRoom";
 
 interface Props {
   room: chat | undefined;
 }
 
-const { useBreakpoint } = Grid;
-
 const SearchToRoom = ({ room }: Props) => {
-  const screens = useBreakpoint();
   const [isOpen, setIsOpen] = useState(false);
-  const [input, setInput] = useState("");
-  const [isDm, setIsDm] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [isProfile, setIsProfile] = useState(false);
-  const [isGameMode, setIsGameMode] = useState(false);
-  const [isNormal, setIsNormal] = useState(true);
-
-  const openProfile = () => {
-    setIsProfile(true);
-  };
-
-  const closeProfile = () => {
-    setIsProfile(false);
-  };
-
-  const openGameMode = () => {
-    setIsGameMode(true);
-  };
-
-  const closeGameMode = () => {
-    setIsGameMode(false);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  const handleGameMode = (value: boolean) => {
-    setIsNormal(value);
-  };
 
   const openModal = () => {
     // 조인하기전 핸들함수
@@ -80,17 +30,6 @@ const SearchToRoom = ({ room }: Props) => {
     } else {
       setIsOpen(false);
     }
-  };
-
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    const dm = value.includes("/w");
-    if (dm === true) {
-      setIsDm(true);
-    } else {
-      setIsDm(false);
-    }
-    setInput(value);
   };
 
   return (

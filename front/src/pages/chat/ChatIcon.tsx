@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import WindowIcon from "../../globalComponents/WindowIcon";
+import WindowIcon from "../globalComponents/WindowIcon";
 import { Grid, Row } from "antd";
-import Modal from "../../globalComponents/ModalWrapper";
+import Modal from "../globalComponents/ModalWrapper";
 import {
   Button,
   ScrollView,
@@ -9,23 +9,22 @@ import {
   Window,
   WindowContent,
   WindowHeader,
+  Tabs,
+  Tab,
 } from "react95";
-import Chatting from "./SearchToRoom";
-import UserList from "./UserList";
-
-interface Props {
-  ChatRoomName: string;
-  userCount: number;
-  isPS: boolean;
-}
+import { chatMocData } from "@/moc/chat";
+import SearchRoom from "./components/SearchRoom";
+import ChatRoom from "./components/ChatRoomList";
+import AppLayout from "../globalComponents/AppLayout";
+import { useRouter } from "next/router";
 
 const { useBreakpoint } = Grid;
-
-const Chat = ({ ChatRoomName, userCount, isPS }: Props) => {
+const ChatIcon = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isUser, setIsUser] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
   const screens = useBreakpoint();
-
+  const [state, setState] = useState({ activeTab: 0 });
+  const router = useRouter();
   const openModal = () => {
     setIsOpen(true);
     document.body.style.overflow = "hidden";
@@ -36,24 +35,31 @@ const Chat = ({ ChatRoomName, userCount, isPS }: Props) => {
     document.body.style.overflow = "auto";
   };
 
-  const onClickUser = () => {
-    setIsUser(true);
+  const onClickSearch = () => {
+    setIsSearch(true);
   };
 
   const onClickChat = () => {
-    setIsUser(false);
+    setIsSearch(false);
   };
+
+  const handleChange = (
+    value: number,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setState({ activeTab: value });
+  };
+  const close = () => {
+    router.back();
+  };
+  const { activeTab } = state;
 
   return (
     <div>
       <WindowIcon
-        IconName={ChatRoomName}
+        IconName="채팅목록."
         func={openModal}
-        ImageUrl={
-          isPS
-            ? "https://user-images.githubusercontent.com/86397600/239898237-c4fa07e3-dd6a-4054-b140-0f46dc78259d.png"
-            : "https://user-images.githubusercontent.com/86397600/239898239-397e4a7c-7ea1-446d-8af6-30f34f8fccab.png"
-        }
+        ImageUrl="https://user-images.githubusercontent.com/86397600/239874911-135e4e97-bc7e-4b5f-b4dc-cc773ff04fb2.png"
       />
       {isOpen && (
         <Modal>
@@ -75,7 +81,7 @@ const Chat = ({ ChatRoomName, userCount, isPS }: Props) => {
               style={{ justifyContent: "space-between", display: "flex" }}
             >
               <span style={{ fontFamily: "dunggeunmo-bold", fontSize: "22px" }}>
-                {`${ChatRoomName}. ${userCount}`}
+                채팅목록
               </span>
               <Button style={{ marginTop: "3px" }} onClick={closeModal}>
                 <span
@@ -85,31 +91,38 @@ const Chat = ({ ChatRoomName, userCount, isPS }: Props) => {
                 </span>{" "}
               </Button>
             </WindowHeader>
-            <Toolbar>
-              <Button
-                variant="menu"
-                size="sm"
-                style={{ fontFamily: "dunggeunmo-bold", fontSize: "20px" }}
-                onClick={onClickChat}
-              >
-                채팅
-              </Button>
-              <Button
-                variant="menu"
-                size="sm"
-                style={{ fontFamily: "dunggeunmo-bold", fontSize: "20px" }}
-                onClick={onClickUser}
-              >
-                유저
-              </Button>
-            </Toolbar>
+            <Tabs value={activeTab} onChange={handleChange}>
+              <Tab value={0}>
+                <span
+                  style={{
+                    fontFamily: "dunggeunmo-bold",
+                    fontSize: "22px",
+                    width: "100px",
+                  }}
+                >
+                  목록
+                </span>
+              </Tab>
+              <Tab value={1}>
+                <span
+                  style={{
+                    fontFamily: "dunggeunmo-bold",
+                    fontSize: "22px",
+                    width: "100px",
+                  }}
+                >
+                  찾기
+                </span>
+              </Tab>
+            </Tabs>
             <WindowContent>
               <Row>
                 <ScrollView
                   shadow={false}
                   style={{ width: "100%", height: "44vh" }}
                 >
-                  {isUser ? <Chatting /> : <UserList />}
+                  {activeTab === 0 && <ChatRoom />}
+                  {activeTab === 1 && <SearchRoom />}
                 </ScrollView>
               </Row>
             </WindowContent>
@@ -120,4 +133,4 @@ const Chat = ({ ChatRoomName, userCount, isPS }: Props) => {
   );
 };
 
-export default Chat;
+export default ChatIcon;

@@ -1,7 +1,7 @@
 import { Content } from "@/types/content";
 import React from "react";
 import { Image } from "antd";
-import Spacer from "@/pages/components/Spacer";
+import Spacer from "@/pages/globalComponents/Spacer";
 
 interface Props {
   Data: Content;
