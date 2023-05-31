@@ -9,21 +9,15 @@ interface User {
 }
 
 const FriendUser = ({ userNickName, stateOn }: User) => {
-  const [isProfile, setIsProfile] = useState(false);
-  const [isBlock, setIsBlock] = useState(false);
-
   const router = useRouter();
 
   const openProfile = () => {
-    setIsProfile(true);
+    // TODO: Profile 리덕스에 Uid dispatch 해야함
     document.body.style.overflow = "hidden";
     router.push("/Page/Profile", "/Page/Profile", { shallow: false });
   };
+  // TODO: 차단할때 사용할 API콜함수
 
-  const closeProfile = () => {
-    setIsProfile(false);
-    document.body.style.overflow = "auto";
-  };
   return (
     <div
       style={{
