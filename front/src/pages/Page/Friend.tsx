@@ -66,7 +66,7 @@ const FriendList = () => {
           <Row>
             <ScrollView
               shadow={false}
-              style={{ width: "100%", height: "44vh" }}
+              style={{ width: "100%", height: "420px" }}
             >
               {activeTab === 0 &&
                 mocUserData.map((user, index) => (

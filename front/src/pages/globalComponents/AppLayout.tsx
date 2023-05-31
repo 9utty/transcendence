@@ -13,6 +13,7 @@ import {
   Frame,
   Bar,
   Button,
+  Toolbar,
 } from "react95";
 import Appbar from "./Appbar";
 import Link from "next/link";
@@ -20,6 +21,7 @@ import FriendIcon from "../friendList/FriendIcon";
 import ChatIcon from "../chat/ChatIcon";
 import GameIcon from "../game/GameIcon";
 import RandomMatch from "../game/RandomMatch";
+import { useRouter } from "next/router";
 
 const { useBreakpoint } = Grid;
 type Props = {
@@ -29,12 +31,11 @@ type Props = {
 const AppLayout = ({ children }: Props) => {
   const screens = useBreakpoint();
   const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
 
-  const openBlog = () => {
-    setIsOpen(true);
-  };
-  const closeBlog = () => {
-    setIsOpen(false);
+  const openProfile = () => {
+    router.push("/Page/Profile", "/Page/Profile", { shallow: false });
   };
 
   return (
@@ -56,36 +57,90 @@ const AppLayout = ({ children }: Props) => {
         }}
       >
         <ThemeProvider theme={original}>
-          <div style={{ height: "91%" }}>
-            <div style={{ top: "0px" }}>
+          <div style={{ height: "100%" }}>
+            <div style={{ top: "0px", height: "3rem" }}>
               <Bar
                 style={{
                   width: "100vw",
-                  height: screens.md ? "2.5rem" : "50px",
+                  height: screens.md ? "100%" : "100%",
+                  paddingTop: "3px",
                 }}
               >
-                <Button
-                  onClick={openBlog}
-                  style={{
-                    width: "30vw",
-                    height: screens.md ? "2.3rem" : "45px",
-                  }}
-                >
+                <Toolbar style={{ justifyContent: "space-between" }}>
                   <div
-                    style={{
-                      top: "50%",
-                      left: "50%",
-                      width: "30vw",
-                      transform: "translate(0%,0%)",
-                      fontSize: screens.md ? "1.6rem" : "20px",
-                      fontFamily: "dunggeunmo-bold",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
+                    style={{ position: "relative", display: "inline-block" }}
                   >
-                    감장과 아이들
+                    <Button
+                      onClick={() => setOpen(!open)}
+                      active={open}
+                      style={{
+                        fontWeight: "bold",
+                        fontFamily: "dunggeunmo-bold",
+                        height: screens.md ? "2rem" : "40px",
+                        width: screens.md ? "6rem" : "90px",
+                        fontSize: screens.md ? "1.2rem" : "19px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <img
+                        src={
+                          "https://user-images.githubusercontent.com/86397600/236210202-560b7128-fa5a-4fdd-b746-f3c304c977bd.png"
+                        }
+                        style={{
+                          paddingRight: "5px",
+                          height: screens.md ? "1.6rem" : "25px",
+                        }}
+                      />
+                      Start
+                    </Button>
+                    {open && (
+                      <MenuList
+                        style={{
+                          position: "absolute",
+                          left: "0%",
+                          top: "45%",
+                          width: "30vw",
+                          zIndex: 100,
+                        }}
+                        onClick={() => setOpen(false)}
+                      >
+                        <MenuListItem onClick={openProfile}>
+                          <span role="img" aria-label="👨‍💻">
+                            👨‍💻
+                          </span>
+                          <div style={{ fontFamily: "dunggeunmo-bold" }}>
+                            Profile?
+                          </div>
+                        </MenuListItem>
+                        <MenuListItem
+                          onClick={() =>
+                            (window.location.href = "https://github.com/9utty")
+                          }
+                        >
+                          <span role="img" aria-label="📁">
+                            📁
+                          </span>
+                          <div
+                            style={{
+                              fontFamily: "dunggeunmo-bold",
+                            }}
+                          >
+                            GitHub?
+                          </div>
+                        </MenuListItem>
+                        <Separator />
+                        <MenuListItem>
+                          <span role="img" aria-label="🔙">
+                            🔙
+                          </span>
+                          <div style={{ fontFamily: "dunggeunmo-bold" }}>
+                            Login?
+                          </div>
+                        </MenuListItem>
+                      </MenuList>
+                    )}
                   </div>
-                </Button>
+                </Toolbar>
               </Bar>
             </div>
             <Row gutter={[0, 30]}>
@@ -95,7 +150,6 @@ const AppLayout = ({ children }: Props) => {
             </Row>
             {children}
           </div>
-          <Appbar />
         </ThemeProvider>
       </div>
     </div>

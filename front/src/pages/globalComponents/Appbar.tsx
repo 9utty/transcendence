@@ -34,7 +34,7 @@ export default function Appbar() {
   return (
     <>
       <Wrapper screenSize={screens}>
-        <div style={{ height: "4rem", marginTop: "2.5rem" }}>
+        <div style={{ height: "3rem", marginTop: "1.2rem" }}>
           <Bar
             style={{
               width: "100vw",
