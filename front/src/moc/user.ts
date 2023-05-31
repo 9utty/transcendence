@@ -1,10 +1,4 @@
-interface user {
-  uId: number;
-  profileImage: string;
-  userEmail: string;
-  userNickName: string;
-  stateOn: boolean;
-}
+import { user } from "@/types/UserType";
 
 export const mocUserData: user[] = [
   {

@@ -1,7 +1,7 @@
 import { chatMocData } from "@/moc/chat";
 import { mocContentData } from "@/moc/chatContent";
 import Modal from "@/pages/globalComponents/ModalWrapper";
-import { chat } from "@/types/chat";
+import { chat } from "@/types/ChatType";
 import { Grid, Row } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import {

@@ -1,4 +1,4 @@
-import { Content } from "@/types/content";
+import { Content } from "@/types/ContentType";
 
 export const mocContentData: Content[] = [
   {

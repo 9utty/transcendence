@@ -1,4 +1,4 @@
-import { Content } from "@/types/content";
+import { Content } from "@/types/ContentType";
 import React from "react";
 import { Image } from "antd";
 import Spacer from "@/pages/globalComponents/Spacer";
@@ -7,10 +7,13 @@ interface Props {
   Data: Content;
 }
 
-const MessageCard = (props: Props) => {
+const MessageCard = ({ Data }: Props) => {
+  if (!Data) {
+    return null;
+  }
   return (
     <div style={{ display: "flex", width: "100%" }}>
-      {props.Data.isTo ? (
+      {Data.isTo === true ? (
         <>
           <div style={{ flex: "1" }}></div>
           <div
@@ -33,12 +36,12 @@ const MessageCard = (props: Props) => {
             >
               <Image
                 preview={false}
-                src={props.Data.profileImage}
+                src={Data.profileImage}
                 width={"40px"}
                 style={{ borderRadius: "50%" }}
               />
               <div style={{ marginRight: "20px", fontSize: "25px" }}>
-                {props.Data.userNickName}
+                {Data.userNickName}
               </div>
             </div>
             <div
@@ -48,8 +51,8 @@ const MessageCard = (props: Props) => {
                 alignItems: "end",
               }}
             >
-              <div style={{ marginTop: "10px" }}>{props.Data.Content}</div>
-              <div style={{ color: "#333" }}>{props.Data.Date}</div>
+              <div style={{ marginTop: "10px" }}>{Data.Content}</div>
+              <div style={{ color: "#333" }}>{Data.Date}</div>
             </div>
           </div>
         </>
@@ -69,17 +72,17 @@ const MessageCard = (props: Props) => {
             <div style={{ display: "flex", alignItems: "center" }}>
               <Image
                 preview={false}
-                src={props.Data.profileImage}
+                src={Data.profileImage}
                 width={"40px"}
                 style={{ borderRadius: "50%" }}
               />
               <div style={{ marginLeft: "20px", fontSize: "25px" }}>
-                {props.Data.userNickName}
+                {Data.userNickName}
               </div>
             </div>
             <div>
-              <div style={{ marginTop: "10px" }}>{props.Data.Content}</div>
-              <div style={{ color: "#444" }}>{props.Data.Date}</div>
+              <div style={{ marginTop: "10px" }}>{Data.Content}</div>
+              <div style={{ color: "#444" }}>{Data.Date}</div>
             </div>
           </div>
           <div style={{ flex: "1" }}></div>

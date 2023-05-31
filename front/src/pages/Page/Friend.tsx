@@ -74,6 +74,7 @@ const FriendList = () => {
                     key={index}
                     userNickName={user.userNickName}
                     stateOn={user.stateOn}
+                    uId={user.uId}
                   />
                 ))}
               {activeTab === 1 &&

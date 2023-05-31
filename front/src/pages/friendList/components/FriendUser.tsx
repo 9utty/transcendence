@@ -1,18 +1,26 @@
 import Profile from "@/pages/Page/Profile";
+import RootState from "@/redux/RootReducer";
+import { AppDispatch } from "@/redux/RootStore";
+import LoadingSlice from "@/redux/Slice/Loading";
+import ProfileSlice, { fetchProfile } from "@/redux/Slice/Profile";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react95";
 
 interface User {
   userNickName: string;
   stateOn: boolean;
+  uId: number;
 }
 
-const FriendUser = ({ userNickName, stateOn }: User) => {
+const FriendUser = ({ userNickName, stateOn, uId }: User) => {
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  const owner = useSelector((state: RootState) => state.global.uId);
 
   const openProfile = () => {
-    // TODO: Profile 리덕스에 Uid dispatch 해야함
+    dispatch(fetchProfile({ userId: uId, ownerId: owner }));
     document.body.style.overflow = "hidden";
     router.push("/Page/Profile", "/Page/Profile", { shallow: false });
   };
@@ -80,7 +88,6 @@ const FriendUser = ({ userNickName, stateOn }: User) => {
       <div
         style={{ width: "100", height: "2px", backgroundColor: "#999" }}
       ></div>
-      {/* {isProfile && <Profile close={closeProfile} />} */}
     </div>
   );
 };

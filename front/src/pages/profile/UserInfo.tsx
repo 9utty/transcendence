@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import H1 from "../PostComponents/H1";
 import H3 from "../PostComponents/H3";
-import { Row, Col } from "antd";
 import Div from "../PostComponents/Div";
+import { useSelector } from "react-redux";
+import RootState from "@/redux/RootReducer";
+import { mocUserData } from "@/moc/user";
+import { user } from "@/types/UserType";
 
-interface User {
-  nickName: string;
-  profileIndex: number;
+interface Props {
+  user: user | null;
 }
 
-const UserInfo = ({ nickName, profileIndex }: User) => {
+const UserInfo = ({ user }: Props) => {
   return (
     <div>
       <div
@@ -19,7 +21,7 @@ const UserInfo = ({ nickName, profileIndex }: User) => {
           justifyContent: "space-around",
         }}
       >
-        <H1>{`${nickName}`}</H1>
+        <H1>{`${user?.userNickName}`}</H1>
         <H3>프로필 아바타위치</H3>
       </div>
       <Div />

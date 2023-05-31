@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { TextInput } from "react95";
 import { chatMocData } from "@/moc/chat";
-import { chat } from "@/types/chat";
+import { chat } from "@/types/ChatType";
 import SearchRoom from "./SearchRoom";
 import { useDispatch, useSelector } from "react-redux";
 import { ChatSlice } from "@/redux/Slice/Chat";
-import { Room } from "@/types/roomType";
+import { Room } from "@/types/RoomType";
 import RootState from "@/redux/RootReducer";
 
 const SearchPage = () => {

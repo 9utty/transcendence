@@ -1,4 +1,4 @@
-import { chat } from "@/types/chat";
+import { chat } from "@/types/ChatType";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface InitialState {

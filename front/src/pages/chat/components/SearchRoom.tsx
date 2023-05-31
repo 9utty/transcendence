@@ -1,11 +1,9 @@
 import { mocUserData } from "@/moc/user";
-import { Room } from "@/types/roomType";
+import { Room } from "@/types/RoomType";
 import React, { useEffect, useState } from "react";
 import { Button } from "react95";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import RootState from "@/redux/RootReducer";
-import { chat } from "@/types/chat";
+import { chat } from "@/types/ChatType";
 
 interface Room {
   room: chat;
@@ -14,6 +12,10 @@ interface Room {
 const SearchRoom = ({ room }: Room) => {
   const router = useRouter();
 
+  if (!room) {
+    // room이 undefined인 경우, 즉 초기에는 room이 존재하지 않을 때
+    return null; // 또는 다른 처리 방법을 선택할 수 있습니다.
+  }
   const openModal = () => {
     // 조인하기전 핸들함수
     if (room?.type === 2) {

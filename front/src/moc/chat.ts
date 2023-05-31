@@ -1,4 +1,4 @@
-import { chat } from "@/types/chat";
+import { chat } from "@/types/ChatType";
 
 export const chatMocData: chat[] = [
   {
