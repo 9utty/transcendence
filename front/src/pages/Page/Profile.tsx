@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Modal from "../globalComponents/ModalWrapper";
 import H1 from "../PostComponents/H1";
 import {
   Button,
@@ -16,8 +15,6 @@ import UserInfo from "../profile/UserInfo";
 import MyModal from "../globalComponents/MyModal";
 import AppLayout from "../globalComponents/AppLayout";
 import { useRouter } from "next/router";
-
-const { useBreakpoint } = Grid;
 
 const Profile = () => {
   const [state, setState] = useState({ activeTab: 0 });
