@@ -17,7 +17,7 @@ const FriendUser = ({ userNickName, stateOn }: User) => {
   const openProfile = () => {
     setIsProfile(true);
     document.body.style.overflow = "hidden";
-    router.push("/profile/Profile", "/profile/Profile", { shallow: false });
+    router.push("/Page/Profile", "/Page/Profile", { shallow: false });
   };
 
   const closeProfile = () => {
@@ -60,9 +60,27 @@ const FriendUser = ({ userNickName, stateOn }: User) => {
         </div>
         <div>
           <Button style={{ width: "10vw" }} onClick={openProfile}>
-            프로필
+            <span
+              style={{
+                fontFamily: "dunggeunmo-bold",
+                fontSize: "18px",
+                width: "200px",
+              }}
+            >
+              프로필
+            </span>
           </Button>
-          <Button style={{ width: "10vw" }}>차단</Button>
+          <Button style={{ width: "10vw" }}>
+            <span
+              style={{
+                fontFamily: "dunggeunmo-bold",
+                fontSize: "18px",
+                width: "200px",
+              }}
+            >
+              차단
+            </span>
+          </Button>
         </div>
       </div>
       <div

@@ -22,7 +22,7 @@ const MyModal = ({ children, hName, close }: Props) => {
           top: screens.md ? "50%" : "0%",
           left: screens.md ? "50%" : "0%",
           width: "700px",
-          height: "500px",
+          height: "550px",
           transform: screens.md
             ? "translate(-50%, -50%)"
             : "translate(0%, 15%)",

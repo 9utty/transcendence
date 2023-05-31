@@ -19,6 +19,7 @@ import Link from "next/link";
 import FriendIcon from "../friendList/FriendIcon";
 import ChatIcon from "../chat/ChatIcon";
 import GameIcon from "../game/GameIcon";
+import RandomMatch from "../game/RandomMatch";
 
 const { useBreakpoint } = Grid;
 type Props = {
@@ -131,6 +132,15 @@ const Components: Component[] = [
       return (
         <Col xs={12} sm={8} md={4}>
           <GameIcon />
+        </Col>
+      );
+    },
+  },
+  {
+    Component: () => {
+      return (
+        <Col xs={12} sm={8} md={4}>
+          <RandomMatch />
         </Col>
       );
     },

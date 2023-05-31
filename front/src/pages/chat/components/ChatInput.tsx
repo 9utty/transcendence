@@ -7,6 +7,7 @@ interface Props {
 }
 
 const ChatInput = ({ input, func }: Props) => {
+  // TODO: 사용자인풋 최대 100글자만 작성되게해야함
   return (
     <div
       style={{
