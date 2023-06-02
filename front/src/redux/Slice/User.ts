@@ -24,6 +24,7 @@ const initialState: InitialState = {
   totalLose: 0,
 };
 
+// 여기도 rudux thunk로 비동기 처리해야함
 const UserSlice = createSlice({
   name: "User",
   initialState: initialState,
