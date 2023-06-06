@@ -50,15 +50,17 @@ const ChatList = () => {
           </Tab>
         </Tabs>
         <WindowContent>
-          <Row>
-            <ScrollView
-              shadow={false}
-              style={{ width: "100%", height: "44vh" }}
-            >
-              {activeTab === 0 && <RoomList />}
-              {activeTab === 1 && <SearchPage />}
-            </ScrollView>
-          </Row>
+          {activeTab === 0 && <RoomList />}
+          {activeTab === 1 && (
+            <Row>
+              <ScrollView
+                shadow={false}
+                style={{ width: "100%", height: "44vh" }}
+              >
+                <SearchPage />
+              </ScrollView>
+            </Row>
+          )}
         </WindowContent>
       </MyModal>
     </AppLayout>

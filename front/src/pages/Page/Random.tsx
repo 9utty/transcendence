@@ -27,6 +27,10 @@ const Random = () => {
     // isMatch 바꿔주기
   };
 
+  const Start = () => {
+    // TODO: 게임시작 Router(Page/Game)
+  };
+
   return (
     <AppLayout>
       <MyModal hName="랜덤매칭" close={close}>
@@ -57,14 +61,25 @@ const Random = () => {
               marginTop: "40px",
             }}
           >
-            <Button
-              style={{
-                width: "10vw",
-              }}
-              onClick={Match}
-            >
-              <H3>{isMatch ? `시작` : `매칭`}</H3>
-            </Button>
+            {isMatch ? (
+              <Button
+                style={{
+                  width: "10vw",
+                }}
+                onClick={Start}
+              >
+                <H3>시작</H3>
+              </Button>
+            ) : (
+              <Button
+                style={{
+                  width: "10vw",
+                }}
+                onClick={Match}
+              >
+                <H3>매칭</H3>
+              </Button>
+            )}
           </div>
         </WindowContent>
       </MyModal>
