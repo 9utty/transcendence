@@ -26,6 +26,10 @@ const FriendUser = ({ userNickName, stateOn, uId }: User) => {
   };
   // TODO: 차단할때 사용할 API콜함수
 
+  const blockFriend = () => {
+    console.log(`${userNickName} 차단`);
+  };
+
   return (
     <div
       style={{
@@ -72,7 +76,7 @@ const FriendUser = ({ userNickName, stateOn, uId }: User) => {
               프로필
             </span>
           </Button>
-          <Button style={{ width: "10vw" }}>
+          <Button style={{ width: "10vw" }} onClick={blockFriend}>
             <span
               style={{
                 fontFamily: "dunggeunmo-bold",

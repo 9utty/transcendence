@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import H1 from "../PostComponents/H1";
 import H3 from "../PostComponents/H3";
 import Div from "../PostComponents/Div";
-import { useSelector } from "react-redux";
-import RootState from "@/redux/RootReducer";
-import { mocUserData } from "@/moc/user";
 import { user } from "@/types/UserType";
 
 interface Props {

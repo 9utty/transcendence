@@ -6,6 +6,9 @@ interface User {
 }
 
 const BlockUser = ({ userNickName }: User) => {
+  const cancelBlock = () => {
+    console.log(`${userNickName} 차단 해제`);
+  };
   return (
     <div
       style={{
@@ -30,7 +33,9 @@ const BlockUser = ({ userNickName }: User) => {
         >
           {userNickName ? userNickName : "user1"}
         </div>
-        <Button style={{ width: "10vw" }}>해제</Button>
+        <Button style={{ width: "10vw" }} onClick={cancelBlock}>
+          해제
+        </Button>
       </div>
       <div
         style={{ width: "100", height: "2px", backgroundColor: "#999" }}
