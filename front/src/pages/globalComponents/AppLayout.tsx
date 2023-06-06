@@ -22,6 +22,9 @@ import ChatIcon from "../chat/ChatIcon";
 import GameIcon from "../game/GameIcon";
 import RandomMatch from "../game/RandomMatch";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/RootStore";
+import { fetchProfile } from "@/redux/Slice/Profile";
 
 const { useBreakpoint } = Grid;
 type Props = {
@@ -33,8 +36,12 @@ const AppLayout = ({ children }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  const uId = useSelector((state: RootState) => state.global.uId);
 
   const openProfile = () => {
+    dispatch(fetchProfile({ userId: uId, ownerId: uId }));
+    document.body.style.overflow = "hidden";
     router.push("/Page/Profile", "/Page/Profile", { shallow: false });
   };
 

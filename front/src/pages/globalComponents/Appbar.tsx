@@ -10,6 +10,12 @@ import {
 import styled from "styled-components";
 import { Grid } from "antd";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import UserSlice from "@/redux/Slice/User";
+import GlobalSlice from "@/redux/Slice/Global";
+import RootState from "@/redux/RootReducer";
+import { AppDispatch } from "@/redux/RootStore";
+import { fetchProfile } from "@/redux/Slice/Profile";
 
 interface IWrapperProps {
   screenSize: Record<string, boolean>;
@@ -26,8 +32,13 @@ export default function Appbar() {
   const [open, setOpen] = useState(false);
   const screens = useBreakpoint();
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  const uId = useSelector((state: RootState) => state.global.uId);
 
   const openProfile = () => {
+    console.log(`${uId}uId`);
+    dispatch(fetchProfile({ userId: uId, ownerId: uId }));
+    document.body.style.overflow = "hidden";
     router.push("/Page/Profile", "/Page/Profile", { shallow: false });
   };
 
